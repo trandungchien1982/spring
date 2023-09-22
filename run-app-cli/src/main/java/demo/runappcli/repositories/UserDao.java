@@ -1,6 +1,6 @@
-package demo.helloworld.repositories;
+package demo.runappcli.repositories;
 
-import demo.helloworld.entities.User;
+import demo.runappcli.entities.User;
 import org.springframework.data.repository.CrudRepository;
 
 import javax.persistence.Id;

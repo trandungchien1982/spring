@@ -1,4 +1,4 @@
-package demo.helloworld.entities;
+package demo.runappcli.entities;
 
 import lombok.Data;
 

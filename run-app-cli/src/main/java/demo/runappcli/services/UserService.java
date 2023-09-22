@@ -1,7 +1,7 @@
-package demo.helloworld.services;
+package demo.runappcli.services;
 
-import demo.helloworld.entities.User;
-import demo.helloworld.repositories.UserDao;
+import demo.runappcli.entities.User;
+import demo.runappcli.repositories.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
