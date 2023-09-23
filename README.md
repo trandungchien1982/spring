@@ -17,54 +17,160 @@ D:\Projects\spring
 
 ==============================================================
 
-# Ví dụ [03.RestfulAPI]
+# Ví dụ [04.JPA+MySQL]
 ==============================================================
 
-**Ta sẽ tạo 1 App Spring Boot có apply Restful API, bao gồm:**<br/>
-  GET, POST, PUT, DELETE ứng với mô hình CRUD<br/>
-
+**Ta sẽ tạo 1 App Spring Boot sử dụng JPA cho MySQL Database như sau :**<br/>
 - Start ở port 8100
-- Spring Boot version : 2.7.16
-- JDK: 11
+- MySQL DB, sử dụng Docker để test
+```shell
+  ./00.start-db.sh
+  
+  ./01.stop-db.sh
+```
+- Script tạo data nằm trong file /resource/data.sql và được load trước khi init JPA<br/>
+  (script này chạy tốt với MySQL ở môi trường thực hoặc H2 cho Integration Tests )
 
-**Tạo RESTful API với các endpoints sau đây:**
-  - GET    http://localhost:8100/api/get-users
-  - GET    http://localhost:8100/api/get-users?limit=3
-  - GET    http://localhost:8100/api/get-user-data/12 <br/>
 
-  - POST   http://localhost:8100/api/add-user
-  ```shell
-    curl --location --request POST 'http://localhost:8100/api/add-user'
-  ```
-  - POST   http://localhost:8100/api/add-custom-user <br/>
-  ```shell
-    curl --location --request POST 'http://localhost:8100/api/add-custom-user' \
-      --header 'Content-Type: application/json' \
-      --data-raw '{
-          "userId": 100,
-          "name": "User 100",
-          "age": 120
-      }
-    '
-  ```
+**Tham khảo kết quả khi start WebApp & kết nối với MySQL DB:**
+```shell
+13:32:01: Executing ':JPAMySQLApplication.main()'...
 
-  - PUT    http://localhost:8100/api/update-user/3 <br/>
-  ```shell
-    curl --location --request PUT 'http://localhost:8100/api/update-user/3' \
-    --header 'Content-Type: application/json' \
-    --data-raw '{
-        "name": "User Name update of 3",
-        "age": 3100
-    }
-    '
-  ```
+> Task :compileJava UP-TO-DATE
+> Task :processResources UP-TO-DATE
+> Task :classes UP-TO-DATE
 
-  - DELETE http://localhost:8100/api/delete-user/5 <br/>
-  ```shell
-      curl --location --request DELETE 'http://localhost:8100/api/delete-user/5'
-  ```
+> Task :JPAMySQLApplication.main()
 
-**Tạo Table DB giả lập trong H2 database**
-  - Tạo Entity/Repository mẫu để tương tác với H2 (memory database)
-  - Tạo Service/Controller
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::               (v2.7.16)
 
+13:32:03.618 [main] INFO  - Starting JPAMySQLApplication using Java 11.0.15 on tdc with PID 91878 (/home/tdc/spring/jpa-mysql/build/classes/java/main started by tdc in /home/tdc/spring/jpa-mysql)
+13:32:03.621 [main] INFO  - No active profile set, falling back to 1 default profile: "default"
+13:32:04.405 [main] INFO  - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+13:32:04.455 [main] INFO  - Finished Spring Data repository scanning in 41 ms. Found 1 JPA repository interfaces.
+13:32:05.050 [main] INFO  - Tomcat initialized with port(s): 8100 (http)
+13:32:05.062 [main] INFO  - Initializing ProtocolHandler ["http-nio-8100"]
+13:32:05.066 [main] INFO  - Starting service [Tomcat]
+13:32:05.066 [main] INFO  - Starting Servlet engine: [Apache Tomcat/9.0.80]
+13:32:05.172 [main] INFO  - Initializing Spring embedded WebApplicationContext
+13:32:05.173 [main] INFO  - Root WebApplicationContext: initialization completed in 1471 ms
+13:32:05.295 [main] INFO  - HikariPool-1 - Starting...
+13:32:05.676 [main] INFO  - HikariPool-1 - Start completed.
+13:32:06.489 [main] INFO  - HHH000204: Processing PersistenceUnitInfo [name: default]
+13:32:06.547 [main] INFO  - HHH000412: Hibernate ORM core version 5.6.15.Final
+13:32:06.729 [main] INFO  - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+13:32:06.864 [main] INFO  - HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+13:32:07.469 [main] INFO  - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+13:32:07.478 [main] INFO  - Initialized JPA EntityManagerFactory for persistence unit 'default'
+13:32:08.110 [main] WARN  - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+13:32:08.468 [main] INFO  - Starting ProtocolHandler ["http-nio-8100"]
+13:32:08.485 [main] INFO  - Tomcat started on port(s): 8100 (http) with context path ''
+13:32:08.494 [main] INFO  - Started JPAMySQLApplication in 5.307 seconds (JVM running for 5.925)
+13:32:08.519 [main] INFO  - [MAIN] Start running some initialize CLI ...
+13:32:08.519 [main] INFO  - --------------------------------------------------------
+13:32:08.566 [main] INFO  - [MAIN] Total of users: 15
+13:32:08.613 [main] INFO  - [MAIN] findAll() = [User(id=1, name=Alex, password=Pwd-Alex, email=alex@test.com, description=Description for ALex, birthday=2020-01-02 00:00:00.0, active=true, createDate=2021-02-03 00:00:00.0), User(id=2, name=John, password=Pwd-John, email=john@gmail.com, description=Description for Join, birthday=2010-11-12 00:00:00.0, active=true, createDate=2021-02-03 00:00:00.0), User(id=3, name=Smith, password=Pwd-Smith, email=smt@test.com, description=Description for Smith, birthday=2005-01-12 00:00:00.0, active=true, createDate=2021-02-03 00:00:00.0), User(id=4, name=Paul, password=Pwd-Paul, email=pl@test.com, description=Description for Paul, birthday=2005-05-07 00:00:00.0, active=true, createDate=2021-02-03 00:00:00.0), User(id=5, name=Mary, password=Pwd-Mary, email=marry@test.com, description=Description for Mary, birthday=2015-05-07 00:00:00.0, active=true, createDate=2021-02-03 00:00:00.0), User(id=6, name=Margaret, password=Pwd-Margaret, email=magrt@test.com, description=Description for Margaret, birthday=2009-05-11 00:00:00.0, active=true, createDate=2021-02-03 00:00:00.0), User(id=7, name=James, password=Pwd-James, email=james@test.com, description=Description for James, birthday=1990-05-11 00:00:00.0, active=true, createDate=2011-02-03 00:00:00.0), User(id=8, name=Carlos, password=Pwd-Carlos, email=cal@test.com, description=Description for Carlos, birthday=1999-06-11 00:00:00.0, active=true, createDate=2017-02-03 00:00:00.0), User(id=9, name=Peter, password=Pwd-Peter, email=petter@test.com, description=Description for Peter, birthday=2005-03-11 00:00:00.0, active=true, createDate=2021-11-03 00:00:00.0), User(id=10, name=James, password=Pwd-James10, email=james10@test.com, description=Description for James10, birthday=1990-05-11 00:00:00.0, active=true, createDate=2011-02-03 00:00:00.0), User(id=11, name=James, password=Pwd-James11, email=james11@test.com, description=Description for James11, birthday=1990-05-11 00:00:00.0, active=true, createDate=2011-02-03 00:00:00.0), User(id=15, name=James, password=Pwd-James15, email=james15@test.com, description=Description for James15, birthday=1990-05-11 00:00:00.0, active=true, createDate=2011-02-03 00:00:00.0), User(id=17, name=Andy, password=Pwd-Andy, email=andy@test.com, description=Description for Andy, birthday=2022-05-11 00:00:00.0, active=true, createDate=2014-02-03 00:00:00.0), User(id=22, name=Android, password=Pwd-Android, email=andr@test.com, description=Description for Android, birthday=2021-04-11 00:00:00.0, active=true, createDate=2014-02-03 00:00:00.0), User(id=30, name=iOS, password=Pwd-iOS, email=ioss@test.com, description=Description for iOS, birthday=2022-01-12 00:00:00.0, active=true, createDate=2014-02-03 00:00:00.0)]
+13:32:08.632 [main] INFO  - [MAIN] findAll(Sort.by('name')) = [User(id=1, name=Alex, password=Pwd-Alex, email=alex@test.com, description=Description for ALex, birthday=2020-01-02 00:00:00.0, active=true, createDate=2021-02-03 00:00:00.0), User(id=22, name=Android, password=Pwd-Android, email=andr@test.com, description=Description for Android, birthday=2021-04-11 00:00:00.0, active=true, createDate=2014-02-03 00:00:00.0), User(id=17, name=Andy, password=Pwd-Andy, email=andy@test.com, description=Description for Andy, birthday=2022-05-11 00:00:00.0, active=true, createDate=2014-02-03 00:00:00.0), User(id=8, name=Carlos, password=Pwd-Carlos, email=cal@test.com, description=Description for Carlos, birthday=1999-06-11 00:00:00.0, active=true, createDate=2017-02-03 00:00:00.0), User(id=30, name=iOS, password=Pwd-iOS, email=ioss@test.com, description=Description for iOS, birthday=2022-01-12 00:00:00.0, active=true, createDate=2014-02-03 00:00:00.0), User(id=7, name=James, password=Pwd-James, email=james@test.com, description=Description for James, birthday=1990-05-11 00:00:00.0, active=true, createDate=2011-02-03 00:00:00.0), User(id=10, name=James, password=Pwd-James10, email=james10@test.com, description=Description for James10, birthday=1990-05-11 00:00:00.0, active=true, createDate=2011-02-03 00:00:00.0), User(id=11, name=James, password=Pwd-James11, email=james11@test.com, description=Description for James11, birthday=1990-05-11 00:00:00.0, active=true, createDate=2011-02-03 00:00:00.0), User(id=15, name=James, password=Pwd-James15, email=james15@test.com, description=Description for James15, birthday=1990-05-11 00:00:00.0, active=true, createDate=2011-02-03 00:00:00.0), User(id=2, name=John, password=Pwd-John, email=john@gmail.com, description=Description for Join, birthday=2010-11-12 00:00:00.0, active=true, createDate=2021-02-03 00:00:00.0), User(id=6, name=Margaret, password=Pwd-Margaret, email=magrt@test.com, description=Description for Margaret, birthday=2009-05-11 00:00:00.0, active=true, createDate=2021-02-03 00:00:00.0), User(id=5, name=Mary, password=Pwd-Mary, email=marry@test.com, description=Description for Mary, birthday=2015-05-07 00:00:00.0, active=true, createDate=2021-02-03 00:00:00.0), User(id=4, name=Paul, password=Pwd-Paul, email=pl@test.com, description=Description for Paul, birthday=2005-05-07 00:00:00.0, active=true, createDate=2021-02-03 00:00:00.0), User(id=9, name=Peter, password=Pwd-Peter, email=petter@test.com, description=Description for Peter, birthday=2005-03-11 00:00:00.0, active=true, createDate=2021-11-03 00:00:00.0), User(id=3, name=Smith, password=Pwd-Smith, email=smt@test.com, description=Description for Smith, birthday=2005-01-12 00:00:00.0, active=true, createDate=2021-02-03 00:00:00.0)]
+13:32:08.651 [main] INFO  - [MAIN] findByName('Paul') = User(id=4, name=Paul, password=Pwd-Paul, email=pl@test.com, description=Description for Paul, birthday=2005-05-07 00:00:00.0, active=true, createDate=2021-02-03 00:00:00.0)
+13:32:08.656 [main] INFO  - [MAIN] findFirstByOrderByNameAsc() = User(id=1, name=Alex, password=Pwd-Alex, email=alex@test.com, description=Description for ALex, birthday=2020-01-02 00:00:00.0, active=true, createDate=2021-02-03 00:00:00.0)
+13:32:08.663 [main] INFO  - [MAIN] findTopByOrderByDescriptionDesc() = User(id=3, name=Smith, password=Pwd-Smith, email=smt@test.com, description=Description for Smith, birthday=2005-01-12 00:00:00.0, active=true, createDate=2021-02-03 00:00:00.0)
+13:32:08.678 [main] INFO  - [MAIN] queryFirst10ByName() = Page 1 of 2 containing demo.jpa_mysql.entities.User instances
+13:32:08.690 [main] INFO  - [MAIN] findDataCustomSQL() = [User(id=11, name=James, password=Pwd-James11, email=james11@test.com, description=Description for James11, birthday=1990-05-11 00:00:00.0, active=true, createDate=2011-02-03 00:00:00.0), User(id=15, name=James, password=Pwd-James15, email=james15@test.com, description=Description for James15, birthday=1990-05-11 00:00:00.0, active=true, createDate=2011-02-03 00:00:00.0), User(id=17, name=Andy, password=Pwd-Andy, email=andy@test.com, description=Description for Andy, birthday=2022-05-11 00:00:00.0, active=true, createDate=2014-02-03 00:00:00.0), User(id=22, name=Android, password=Pwd-Android, email=andr@test.com, description=Description for Android, birthday=2021-04-11 00:00:00.0, active=true, createDate=2014-02-03 00:00:00.0), User(id=30, name=iOS, password=Pwd-iOS, email=ioss@test.com, description=Description for iOS, birthday=2022-01-12 00:00:00.0, active=true, createDate=2014-02-03 00:00:00.0)]
+```
+
+**Tham khảo kết quả khi chạy Integration Tests & kết nối với H2 DB:**
+```shell
+> Task :compileJava UP-TO-DATE
+> Task :processResources UP-TO-DATE
+> Task :classes UP-TO-DATE
+> Task :compileTestJava UP-TO-DATE
+> Task :processTestResources UP-TO-DATE
+> Task :testClasses UP-TO-DATE
+> Task :test
+13:33:28.339 [Test worker] INFO  - Neither @ContextConfiguration nor @ContextHierarchy found for test class [demo.jpa_mysql.JPAMySQLApplicationTests], using SpringBootContextLoader
+13:33:28.349 [Test worker] INFO  - Could not detect default resource locations for test class [demo.jpa_mysql.JPAMySQLApplicationTests]: no resource found for suffixes {-context.xml, Context.groovy}.
+13:33:28.351 [Test worker] INFO  - Could not detect default configuration classes for test class [demo.jpa_mysql.JPAMySQLApplicationTests]: JPAMySQLApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+13:33:28.473 [Test worker] INFO  - Found @SpringBootConfiguration demo.jpa_mysql.JPAMySQLApplication for test class demo.jpa_mysql.JPAMySQLApplicationTests
+13:33:28.575 [Test worker] INFO  - Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener, org.springframework.boot.test.autoconfigure.webservices.client.MockWebServiceServerTestExecutionListener, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener, org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.event.ApplicationEventsTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener, org.springframework.test.context.event.EventPublishingTestExecutionListener]
+13:33:28.591 [Test worker] INFO  - Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@6e4ea0bd, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@56f2bbea, org.springframework.test.context.event.ApplicationEventsTestExecutionListener@78f9ed3e, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener@1059754c, org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener@b0964b2, org.springframework.test.context.support.DirtiesContextTestExecutionListener@48e7b3d2, org.springframework.test.context.transaction.TransactionalTestExecutionListener@7f4037ed, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@24e8de5c, org.springframework.test.context.event.EventPublishingTestExecutionListener@64040287, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener@110844f6, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener@6f89f665, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener@df1cff6, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener@4925f4f5, org.springframework.boot.test.autoconfigure.webservices.client.MockWebServiceServerTestExecutionListener@1ad926d3, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener@3a43d133]
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::               (v2.7.16)
+
+13:33:28.956 [Test worker] INFO  - Starting JPAMySQLApplicationTests using Java 11.0.15 on tdc with PID 92448 (started by tdc in /home/tdc/spring/jpa-mysql)
+13:33:28.957 [Test worker] INFO  - The following 1 profile is active: "test"
+13:33:29.702 [Test worker] INFO  - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+13:33:29.778 [Test worker] INFO  - Finished Spring Data repository scanning in 57 ms. Found 1 JPA repository interfaces.
+13:33:30.230 [Test worker] INFO  - HikariPool-1 - Starting...
+13:33:30.477 [Test worker] INFO  - HikariPool-1 - Start completed.
+13:33:30.713 [Test worker] INFO  - HHH000204: Processing PersistenceUnitInfo [name: default]
+13:33:30.784 [Test worker] INFO  - HHH000412: Hibernate ORM core version 5.6.15.Final
+13:33:30.994 [Test worker] INFO  - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+13:33:31.147 [Test worker] INFO  - HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+13:33:31.826 [Test worker] INFO  - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+13:33:31.837 [Test worker] INFO  - Initialized JPA EntityManagerFactory for persistence unit 'default'
+13:33:32.619 [Test worker] WARN  - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+13:33:33.278 [Test worker] INFO  - Started JPAMySQLApplicationTests in 4.647 seconds (JVM running for 5.987)
+13:33:33.298 [Test worker] INFO  - [MAIN] Start running some initialize CLI ...
+13:33:33.299 [Test worker] INFO  - --------------------------------------------------------
+13:33:33.364 [Test worker] INFO  - [MAIN] Total of users: 15
+13:33:33.407 [Test worker] INFO  - [MAIN] findAll() = [User(id=1, name=Alex, password=Pwd-Alex, email=alex@test.com, description=Description for ALex, birthday=2020-01-02 00:00:00.0, active=true, createDate=2021-02-03 00:00:00.0), User(id=2, name=John, password=Pwd-John, email=john@gmail.com, description=Description for Join, birthday=2010-11-12 00:00:00.0, active=true, createDate=2021-02-03 00:00:00.0), User(id=3, name=Smith, password=Pwd-Smith, email=smt@test.com, description=Description for Smith, birthday=2005-01-12 00:00:00.0, active=true, createDate=2021-02-03 00:00:00.0), User(id=4, name=Paul, password=Pwd-Paul, email=pl@test.com, description=Description for Paul, birthday=2005-05-07 00:00:00.0, active=true, createDate=2021-02-03 00:00:00.0), User(id=5, name=Mary, password=Pwd-Mary, email=marry@test.com, description=Description for Mary, birthday=2015-05-07 00:00:00.0, active=true, createDate=2021-02-03 00:00:00.0), User(id=6, name=Margaret, password=Pwd-Margaret, email=magrt@test.com, description=Description for Margaret, birthday=2009-05-11 00:00:00.0, active=true, createDate=2021-02-03 00:00:00.0), User(id=7, name=James, password=Pwd-James, email=james@test.com, description=Description for James, birthday=1990-05-11 00:00:00.0, active=true, createDate=2011-02-03 00:00:00.0), User(id=8, name=Carlos, password=Pwd-Carlos, email=cal@test.com, description=Description for Carlos, birthday=1999-06-11 00:00:00.0, active=true, createDate=2017-02-03 00:00:00.0), User(id=9, name=Peter, password=Pwd-Peter, email=petter@test.com, description=Description for Peter, birthday=2005-03-11 00:00:00.0, active=true, createDate=2021-11-03 00:00:00.0), User(id=10, name=James, password=Pwd-James10, email=james10@test.com, description=Description for James10, birthday=1990-05-11 00:00:00.0, active=true, createDate=2011-02-03 00:00:00.0), User(id=11, name=James, password=Pwd-James11, email=james11@test.com, description=Description for James11, birthday=1990-05-11 00:00:00.0, active=true, createDate=2011-02-03 00:00:00.0), User(id=15, name=James, password=Pwd-James15, email=james15@test.com, description=Description for James15, birthday=1990-05-11 00:00:00.0, active=true, createDate=2011-02-03 00:00:00.0), User(id=17, name=Andy, password=Pwd-Andy, email=andy@test.com, description=Description for Andy, birthday=2022-05-11 00:00:00.0, active=true, createDate=2014-02-03 00:00:00.0), User(id=22, name=Android, password=Pwd-Android, email=andr@test.com, description=Description for Android, birthday=2021-04-11 00:00:00.0, active=true, createDate=2014-02-03 00:00:00.0), User(id=30, name=iOS, password=Pwd-iOS, email=ioss@test.com, description=Description for iOS, birthday=2022-01-12 00:00:00.0, active=true, createDate=2014-02-03 00:00:00.0)]
+13:33:33.427 [Test worker] INFO  - [MAIN] findAll(Sort.by('name')) = [User(id=1, name=Alex, password=Pwd-Alex, email=alex@test.com, description=Description for ALex, birthday=2020-01-02 00:00:00.0, active=true, createDate=2021-02-03 00:00:00.0), User(id=22, name=Android, password=Pwd-Android, email=andr@test.com, description=Description for Android, birthday=2021-04-11 00:00:00.0, active=true, createDate=2014-02-03 00:00:00.0), User(id=17, name=Andy, password=Pwd-Andy, email=andy@test.com, description=Description for Andy, birthday=2022-05-11 00:00:00.0, active=true, createDate=2014-02-03 00:00:00.0), User(id=8, name=Carlos, password=Pwd-Carlos, email=cal@test.com, description=Description for Carlos, birthday=1999-06-11 00:00:00.0, active=true, createDate=2017-02-03 00:00:00.0), User(id=7, name=James, password=Pwd-James, email=james@test.com, description=Description for James, birthday=1990-05-11 00:00:00.0, active=true, createDate=2011-02-03 00:00:00.0), User(id=10, name=James, password=Pwd-James10, email=james10@test.com, description=Description for James10, birthday=1990-05-11 00:00:00.0, active=true, createDate=2011-02-03 00:00:00.0), User(id=11, name=James, password=Pwd-James11, email=james11@test.com, description=Description for James11, birthday=1990-05-11 00:00:00.0, active=true, createDate=2011-02-03 00:00:00.0), User(id=15, name=James, password=Pwd-James15, email=james15@test.com, description=Description for James15, birthday=1990-05-11 00:00:00.0, active=true, createDate=2011-02-03 00:00:00.0), User(id=2, name=John, password=Pwd-John, email=john@gmail.com, description=Description for Join, birthday=2010-11-12 00:00:00.0, active=true, createDate=2021-02-03 00:00:00.0), User(id=6, name=Margaret, password=Pwd-Margaret, email=magrt@test.com, description=Description for Margaret, birthday=2009-05-11 00:00:00.0, active=true, createDate=2021-02-03 00:00:00.0), User(id=5, name=Mary, password=Pwd-Mary, email=marry@test.com, description=Description for Mary, birthday=2015-05-07 00:00:00.0, active=true, createDate=2021-02-03 00:00:00.0), User(id=4, name=Paul, password=Pwd-Paul, email=pl@test.com, description=Description for Paul, birthday=2005-05-07 00:00:00.0, active=true, createDate=2021-02-03 00:00:00.0), User(id=9, name=Peter, password=Pwd-Peter, email=petter@test.com, description=Description for Peter, birthday=2005-03-11 00:00:00.0, active=true, createDate=2021-11-03 00:00:00.0), User(id=3, name=Smith, password=Pwd-Smith, email=smt@test.com, description=Description for Smith, birthday=2005-01-12 00:00:00.0, active=true, createDate=2021-02-03 00:00:00.0), User(id=30, name=iOS, password=Pwd-iOS, email=ioss@test.com, description=Description for iOS, birthday=2022-01-12 00:00:00.0, active=true, createDate=2014-02-03 00:00:00.0)]
+13:33:33.445 [Test worker] INFO  - [MAIN] findByName('Paul') = User(id=4, name=Paul, password=Pwd-Paul, email=pl@test.com, description=Description for Paul, birthday=2005-05-07 00:00:00.0, active=true, createDate=2021-02-03 00:00:00.0)
+13:33:33.448 [Test worker] INFO  - [MAIN] findFirstByOrderByNameAsc() = User(id=1, name=Alex, password=Pwd-Alex, email=alex@test.com, description=Description for ALex, birthday=2020-01-02 00:00:00.0, active=true, createDate=2021-02-03 00:00:00.0)
+13:33:33.454 [Test worker] INFO  - [MAIN] findTopByOrderByDescriptionDesc() = User(id=30, name=iOS, password=Pwd-iOS, email=ioss@test.com, description=Description for iOS, birthday=2022-01-12 00:00:00.0, active=true, createDate=2014-02-03 00:00:00.0)
+13:33:33.470 [Test worker] INFO  - [MAIN] queryFirst10ByName() = Page 1 of 2 containing demo.jpa_mysql.entities.User instances
+13:33:33.483 [Test worker] INFO  - [MAIN] findDataCustomSQL() = [User(id=11, name=James, password=Pwd-James11, email=james11@test.com, description=Description for James11, birthday=1990-05-11 00:00:00.0, active=true, createDate=2011-02-03 00:00:00.0), User(id=15, name=James, password=Pwd-James15, email=james15@test.com, description=Description for James15, birthday=1990-05-11 00:00:00.0, active=true, createDate=2011-02-03 00:00:00.0), User(id=17, name=Andy, password=Pwd-Andy, email=andy@test.com, description=Description for Andy, birthday=2022-05-11 00:00:00.0, active=true, createDate=2014-02-03 00:00:00.0), User(id=22, name=Android, password=Pwd-Android, email=andr@test.com, description=Description for Android, birthday=2021-04-11 00:00:00.0, active=true, createDate=2014-02-03 00:00:00.0), User(id=30, name=iOS, password=Pwd-iOS, email=ioss@test.com, description=Description for iOS, birthday=2022-01-12 00:00:00.0, active=true, createDate=2014-02-03 00:00:00.0)]
+13:33:33.521 [Test worker] INFO  - Began transaction (1) for test context [DefaultTestContext@4e312811 testClass = JPAMySQLApplicationTests, testInstance = demo.jpa_mysql.JPAMySQLApplicationTests@71f042b1, testMethod = contextLoads@JPAMySQLApplicationTests, testException = [null], mergedContextConfiguration = [WebMergedContextConfiguration@77511e9c testClass = JPAMySQLApplicationTests, locations = '{}', classes = '{class demo.jpa_mysql.JPAMySQLApplication}', contextInitializerClasses = '[]', activeProfiles = '{test}', propertySourceLocations = '{}', propertySourceProperties = '{org.springframework.boot.test.context.SpringBootTestContextBootstrapper=true}', contextCustomizers = set[org.springframework.boot.test.autoconfigure.actuate.metrics.MetricsExportContextCustomizerFactory$DisableMetricExportContextCustomizer@47da3952, org.springframework.boot.test.autoconfigure.properties.PropertyMappingContextCustomizer@0, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverContextCustomizerFactory$Customizer@31024624, org.springframework.boot.test.context.filter.ExcludeFilterContextCustomizer@3a4e343, org.springframework.boot.test.json.DuplicateJsonObjectContextCustomizerFactory$DuplicateJsonObjectContextCustomizer@6c6357f9, org.springframework.boot.test.mock.mockito.MockitoContextCustomizer@0, org.springframework.boot.test.web.client.TestRestTemplateContextCustomizer@664a9613, org.springframework.boot.test.context.SpringBootTestArgs@1, org.springframework.boot.test.context.SpringBootTestWebEnvironment@38af9828], resourceBasePath = 'src/main/webapp', contextLoader = 'org.springframework.boot.test.context.SpringBootContextLoader', parent = [null]], attributes = map['org.springframework.test.context.web.ServletTestExecutionListener.activateListener' -> true, 'org.springframework.test.context.web.ServletTestExecutionListener.populatedRequestContextHolder' -> true, 'org.springframework.test.context.web.ServletTestExecutionListener.resetRequestContextHolder' -> true, 'org.springframework.test.context.event.ApplicationEventsTestExecutionListener.recordApplicationEvents' -> false]]; transaction manager [org.springframework.orm.jpa.JpaTransactionManager@74d3b331]; rollback [true]
+13:33:33.643 [Test worker] INFO  - [TEST] Total of users: 15
+13:33:33.643 [Test worker] INFO  - --------------------------------------------------------
+13:33:33.649 [Test worker] INFO  - [TEST] findAll() = [User(id=1, name=Alex, password=Pwd-Alex, email=alex@test.com, description=Description for ALex, birthday=2020-01-02 00:00:00.0, active=true, createDate=2021-02-03 00:00:00.0), User(id=2, name=John, password=Pwd-John, email=john@gmail.com, description=Description for Join, birthday=2010-11-12 00:00:00.0, active=true, createDate=2021-02-03 00:00:00.0), User(id=3, name=Smith, password=Pwd-Smith, email=smt@test.com, description=Description for Smith, birthday=2005-01-12 00:00:00.0, active=true, createDate=2021-02-03 00:00:00.0), User(id=4, name=Paul, password=Pwd-Paul, email=pl@test.com, description=Description for Paul, birthday=2005-05-07 00:00:00.0, active=true, createDate=2021-02-03 00:00:00.0), User(id=5, name=Mary, password=Pwd-Mary, email=marry@test.com, description=Description for Mary, birthday=2015-05-07 00:00:00.0, active=true, createDate=2021-02-03 00:00:00.0), User(id=6, name=Margaret, password=Pwd-Margaret, email=magrt@test.com, description=Description for Margaret, birthday=2009-05-11 00:00:00.0, active=true, createDate=2021-02-03 00:00:00.0), User(id=7, name=James, password=Pwd-James, email=james@test.com, description=Description for James, birthday=1990-05-11 00:00:00.0, active=true, createDate=2011-02-03 00:00:00.0), User(id=8, name=Carlos, password=Pwd-Carlos, email=cal@test.com, description=Description for Carlos, birthday=1999-06-11 00:00:00.0, active=true, createDate=2017-02-03 00:00:00.0), User(id=9, name=Peter, password=Pwd-Peter, email=petter@test.com, description=Description for Peter, birthday=2005-03-11 00:00:00.0, active=true, createDate=2021-11-03 00:00:00.0), User(id=10, name=James, password=Pwd-James10, email=james10@test.com, description=Description for James10, birthday=1990-05-11 00:00:00.0, active=true, createDate=2011-02-03 00:00:00.0), User(id=11, name=James, password=Pwd-James11, email=james11@test.com, description=Description for James11, birthday=1990-05-11 00:00:00.0, active=true, createDate=2011-02-03 00:00:00.0), User(id=15, name=James, password=Pwd-James15, email=james15@test.com, description=Description for James15, birthday=1990-05-11 00:00:00.0, active=true, createDate=2011-02-03 00:00:00.0), User(id=17, name=Andy, password=Pwd-Andy, email=andy@test.com, description=Description for Andy, birthday=2022-05-11 00:00:00.0, active=true, createDate=2014-02-03 00:00:00.0), User(id=22, name=Android, password=Pwd-Android, email=andr@test.com, description=Description for Android, birthday=2021-04-11 00:00:00.0, active=true, createDate=2014-02-03 00:00:00.0), User(id=30, name=iOS, password=Pwd-iOS, email=ioss@test.com, description=Description for iOS, birthday=2022-01-12 00:00:00.0, active=true, createDate=2014-02-03 00:00:00.0)]
+13:33:33.653 [Test worker] INFO  - [TEST] findAll(Sort.by('name')) = [User(id=1, name=Alex, password=Pwd-Alex, email=alex@test.com, description=Description for ALex, birthday=2020-01-02 00:00:00.0, active=true, createDate=2021-02-03 00:00:00.0), User(id=22, name=Android, password=Pwd-Android, email=andr@test.com, description=Description for Android, birthday=2021-04-11 00:00:00.0, active=true, createDate=2014-02-03 00:00:00.0), User(id=17, name=Andy, password=Pwd-Andy, email=andy@test.com, description=Description for Andy, birthday=2022-05-11 00:00:00.0, active=true, createDate=2014-02-03 00:00:00.0), User(id=8, name=Carlos, password=Pwd-Carlos, email=cal@test.com, description=Description for Carlos, birthday=1999-06-11 00:00:00.0, active=true, createDate=2017-02-03 00:00:00.0), User(id=7, name=James, password=Pwd-James, email=james@test.com, description=Description for James, birthday=1990-05-11 00:00:00.0, active=true, createDate=2011-02-03 00:00:00.0), User(id=10, name=James, password=Pwd-James10, email=james10@test.com, description=Description for James10, birthday=1990-05-11 00:00:00.0, active=true, createDate=2011-02-03 00:00:00.0), User(id=11, name=James, password=Pwd-James11, email=james11@test.com, description=Description for James11, birthday=1990-05-11 00:00:00.0, active=true, createDate=2011-02-03 00:00:00.0), User(id=15, name=James, password=Pwd-James15, email=james15@test.com, description=Description for James15, birthday=1990-05-11 00:00:00.0, active=true, createDate=2011-02-03 00:00:00.0), User(id=2, name=John, password=Pwd-John, email=john@gmail.com, description=Description for Join, birthday=2010-11-12 00:00:00.0, active=true, createDate=2021-02-03 00:00:00.0), User(id=6, name=Margaret, password=Pwd-Margaret, email=magrt@test.com, description=Description for Margaret, birthday=2009-05-11 00:00:00.0, active=true, createDate=2021-02-03 00:00:00.0), User(id=5, name=Mary, password=Pwd-Mary, email=marry@test.com, description=Description for Mary, birthday=2015-05-07 00:00:00.0, active=true, createDate=2021-02-03 00:00:00.0), User(id=4, name=Paul, password=Pwd-Paul, email=pl@test.com, description=Description for Paul, birthday=2005-05-07 00:00:00.0, active=true, createDate=2021-02-03 00:00:00.0), User(id=9, name=Peter, password=Pwd-Peter, email=petter@test.com, description=Description for Peter, birthday=2005-03-11 00:00:00.0, active=true, createDate=2021-11-03 00:00:00.0), User(id=3, name=Smith, password=Pwd-Smith, email=smt@test.com, description=Description for Smith, birthday=2005-01-12 00:00:00.0, active=true, createDate=2021-02-03 00:00:00.0), User(id=30, name=iOS, password=Pwd-iOS, email=ioss@test.com, description=Description for iOS, birthday=2022-01-12 00:00:00.0, active=true, createDate=2014-02-03 00:00:00.0)]
+13:33:33.656 [Test worker] INFO  - [TEST] findByName('Paul') = User(id=4, name=Paul, password=Pwd-Paul, email=pl@test.com, description=Description for Paul, birthday=2005-05-07 00:00:00.0, active=true, createDate=2021-02-03 00:00:00.0)
+13:33:33.658 [Test worker] INFO  - [TEST] findFirstByOrderByNameAsc() = User(id=1, name=Alex, password=Pwd-Alex, email=alex@test.com, description=Description for ALex, birthday=2020-01-02 00:00:00.0, active=true, createDate=2021-02-03 00:00:00.0)
+13:33:33.661 [Test worker] INFO  - [TEST] findTopByOrderByDescriptionDesc() = User(id=30, name=iOS, password=Pwd-iOS, email=ioss@test.com, description=Description for iOS, birthday=2022-01-12 00:00:00.0, active=true, createDate=2014-02-03 00:00:00.0)
+13:33:33.666 [Test worker] INFO  - [TEST] queryFirst10ByName() = Page 1 of 2 containing demo.jpa_mysql.entities.User instances
+13:33:33.669 [Test worker] INFO  - [TEST] findDataCustomSQL() = [User(id=11, name=James, password=Pwd-James11, email=james11@test.com, description=Description for James11, birthday=1990-05-11 00:00:00.0, active=true, createDate=2011-02-03 00:00:00.0), User(id=15, name=James, password=Pwd-James15, email=james15@test.com, description=Description for James15, birthday=1990-05-11 00:00:00.0, active=true, createDate=2011-02-03 00:00:00.0), User(id=17, name=Andy, password=Pwd-Andy, email=andy@test.com, description=Description for Andy, birthday=2022-05-11 00:00:00.0, active=true, createDate=2014-02-03 00:00:00.0), User(id=22, name=Android, password=Pwd-Android, email=andr@test.com, description=Description for Android, birthday=2021-04-11 00:00:00.0, active=true, createDate=2014-02-03 00:00:00.0), User(id=30, name=iOS, password=Pwd-iOS, email=ioss@test.com, description=Description for iOS, birthday=2022-01-12 00:00:00.0, active=true, createDate=2014-02-03 00:00:00.0)]
+13:33:33.677 [Test worker] INFO  - Rolled back transaction for test: [DefaultTestContext@4e312811 testClass = JPAMySQLApplicationTests, testInstance = demo.jpa_mysql.JPAMySQLApplicationTests@71f042b1, testMethod = contextLoads@JPAMySQLApplicationTests, testException = [null], mergedContextConfiguration = [WebMergedContextConfiguration@77511e9c testClass = JPAMySQLApplicationTests, locations = '{}', classes = '{class demo.jpa_mysql.JPAMySQLApplication}', contextInitializerClasses = '[]', activeProfiles = '{test}', propertySourceLocations = '{}', propertySourceProperties = '{org.springframework.boot.test.context.SpringBootTestContextBootstrapper=true}', contextCustomizers = set[org.springframework.boot.test.autoconfigure.actuate.metrics.MetricsExportContextCustomizerFactory$DisableMetricExportContextCustomizer@47da3952, org.springframework.boot.test.autoconfigure.properties.PropertyMappingContextCustomizer@0, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverContextCustomizerFactory$Customizer@31024624, org.springframework.boot.test.context.filter.ExcludeFilterContextCustomizer@3a4e343, org.springframework.boot.test.json.DuplicateJsonObjectContextCustomizerFactory$DuplicateJsonObjectContextCustomizer@6c6357f9, org.springframework.boot.test.mock.mockito.MockitoContextCustomizer@0, org.springframework.boot.test.web.client.TestRestTemplateContextCustomizer@664a9613, org.springframework.boot.test.context.SpringBootTestArgs@1, org.springframework.boot.test.context.SpringBootTestWebEnvironment@38af9828], resourceBasePath = 'src/main/webapp', contextLoader = 'org.springframework.boot.test.context.SpringBootContextLoader', parent = [null]], attributes = map['org.springframework.test.context.web.ServletTestExecutionListener.activateListener' -> true, 'org.springframework.test.context.web.ServletTestExecutionListener.populatedRequestContextHolder' -> true, 'org.springframework.test.context.web.ServletTestExecutionListener.resetRequestContextHolder' -> true, 'org.springframework.test.context.event.ApplicationEventsTestExecutionListener.recordApplicationEvents' -> false]]
+13:33:33.706 [SpringApplicationShutdownHook] INFO  - Closing JPA EntityManagerFactory for persistence unit 'default'
+13:33:33.709 [SpringApplicationShutdownHook] INFO  - HikariPool-1 - Shutdown initiated...
+13:33:33.716 [SpringApplicationShutdownHook] INFO  - HikariPool-1 - Shutdown completed.
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 9.0.
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+For more on this, please refer to https://docs.gradle.org/8.2.1/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+BUILD SUCCESSFUL in 8s
+5 actionable tasks: 1 executed, 4 up-to-date
+13:33:34: Execution finished ':test --tests "demo.jpa_mysql.JPAMySQLApplicationTests"'.
+```
+
+**Một số API từ Controller để tương tác vào DB**
+```shell
+  http://localhost:8100/user/all
+  http://localhost:8100/user/findbyid?id=5
+  http://localhost:8100/user/find-by-active?active=true
+  http://localhost:8100/user/find-by-active?active=false
+  
+  http://localhost:8100/user/find-all-by-page?page=2&size=5
+  http://localhost:8100/user/find-all-by-page-sort?page=2&size=5&sortField=name&sortType=desc
+  
+  http://localhost:8100/user/insert?numOfUsers=3
+  http://localhost:8100/user/update?fromId=4&toId=10&newNamePrefix=MY-PREFIX&maxUpdateItems=2
+  
+  http://localhost:8100/user/sort?sortField=createDate&sortType=desc
+  
+  http://localhost:8100/user/custom-sql
+  
+  ...... còn nữa, mà lười liệt kê :) ....
+
+```
