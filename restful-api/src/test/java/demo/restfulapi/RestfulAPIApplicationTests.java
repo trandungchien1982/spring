@@ -1,10 +1,12 @@
-package demo.helloworld;
+package demo.restfulapi;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
 @SpringBootTest
-class HelloWorldApplicationTests {
+@ActiveProfiles("test")
+class RestfulAPIApplicationTests {
 
 	@Test
 	void contextLoads() {

@@ -1,4 +1,4 @@
-package demo.helloworld.entities;
+package demo.restfulapi.entities;
 
 import lombok.Data;
 
