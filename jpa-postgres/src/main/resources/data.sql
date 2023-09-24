@@ -1,24 +1,24 @@
 
-drop table if exists `user`;
-drop table if exists `hibernate_sequence`;
+drop table if exists "user";
+drop table if exists "hibernate_sequence";
 
 -- Create table for Auto Increment ID
 create table hibernate_sequence ( next_val bigint );
 insert into hibernate_sequence values (1);
 
 -- Create main table: user
-create table `user` (
+create table "user" (
     id bigint primary key,
     name varchar(255),
     password varchar(255),
     email varchar(255),
     description varchar(255),
     birthday date,
-    active bit,
+    active boolean,
     create_date date
 );
 
-insert into `user` values
+insert into "user" values
      (1, 'Alex', 'Pwd-Alex', 'alex@test.com', 'Description for ALex', '2020-01-02', true, '2021-02-03')
     ,(2, 'John', 'Pwd-John', 'john@gmail.com', 'Description for Join', '2010-11-12', true, '2021-02-03')
     ,(3, 'Smith', 'Pwd-Smith', 'smt@test.com', 'Description for Smith', '2005-01-12', true, '2021-02-03')

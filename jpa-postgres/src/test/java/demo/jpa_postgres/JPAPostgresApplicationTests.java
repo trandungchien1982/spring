@@ -1,7 +1,8 @@
-package demo.jpa_mysql;
+package demo.jpa_postgres;
 
-import demo.jpa_mysql.repositories.UserDao;
-import demo.jpa_mysql.services.UserService;
+import demo.jpa_postgres.repositories.UserDao;
+import demo.jpa_postgres.services.UserService;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +18,7 @@ import java.util.stream.Collectors;
 @SpringBootTest
 @ActiveProfiles("test")
 @Transactional
-class JPAMySQLApplicationTests {
+class JPAPostgresApplicationTests {
 
 	Logger log = LoggerFactory.getLogger(getClass());
 
@@ -38,6 +39,11 @@ class JPAMySQLApplicationTests {
 		log.info("[TEST] findTopByOrderByDescriptionDesc() = " + userDao.findTopByOrderByDescriptionDesc());
 		log.info("[TEST] queryFirst10ByName() = " + userDao.queryFirst10ByName("James", Pageable.ofSize(2)));
 		log.info("[TEST] findDataCustomSQL() = " + userDao.findDataCustomSQL().collect(Collectors.toList()));
+	}
+
+	@AfterAll
+	static void afterAll() {
+		DS4TestingConfiguration.stopEmbbedPostgresSQL();
 	}
 
 }

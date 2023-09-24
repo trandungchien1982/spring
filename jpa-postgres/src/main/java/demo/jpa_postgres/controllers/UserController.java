@@ -1,7 +1,7 @@
-package demo.jpa_mysql.controllers;
+package demo.jpa_postgres.controllers;
 
-import demo.jpa_mysql.entities.User;
-import demo.jpa_mysql.repositories.UserDao;
+import demo.jpa_postgres.entities.User;
+import demo.jpa_postgres.repositories.UserDao;
 
 import java.util.Collections;
 import java.util.Date;

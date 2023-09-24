@@ -1,7 +1,7 @@
-package demo.jpa_mysql;
+package demo.jpa_postgres;
 
-import demo.jpa_mysql.repositories.UserDao;
-import demo.jpa_mysql.services.UserService;
+import demo.jpa_postgres.repositories.UserDao;
+import demo.jpa_postgres.services.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ import javax.transaction.Transactional;
 import java.util.stream.Collectors;
 
 @SpringBootApplication
-public class JPAMySQLApplication implements CommandLineRunner {
+public class JPAPostgresApplication implements CommandLineRunner {
 
 	Logger log = LoggerFactory.getLogger(getClass());
 
@@ -26,7 +26,7 @@ public class JPAMySQLApplication implements CommandLineRunner {
 	UserDao userDao;
 
 	public static void main(String[] args) {
-		SpringApplication.run(JPAMySQLApplication.class, args);
+		SpringApplication.run(JPAPostgresApplication.class, args);
 	}
 
 	@Override

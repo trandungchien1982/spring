@@ -25,11 +25,13 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.apache.commons:commons-lang3:3.12.0'
-	runtimeOnly 'mysql:mysql-connector-java:8.0.33'
+	// Use PostgreSQL
+	implementation 'org.postgresql:postgresql'
 	runtimeOnly 'com.h2database:h2'
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'ru.yandex.qatools.embed:postgresql-embedded:2.10'
 }
 
 tasks.named('test') {

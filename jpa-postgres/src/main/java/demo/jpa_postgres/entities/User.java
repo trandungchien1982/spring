@@ -1,4 +1,4 @@
-package demo.jpa_mysql.entities;
+package demo.jpa_postgres.entities;
 
 import lombok.Data;
 
@@ -14,7 +14,7 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name = "user")
+@Table(name = "\"user\"")
 @Data
 public class User {
 
