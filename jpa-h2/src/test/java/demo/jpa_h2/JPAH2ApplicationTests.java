@@ -1,7 +1,7 @@
-package demo.jpa_mysql;
+package demo.jpa_h2;
 
-import demo.jpa_mysql.repositories.UserDao;
-import demo.jpa_mysql.services.UserService;
+import demo.jpa_h2.repositories.UserDao;
+import demo.jpa_h2.services.UserService;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 @SpringBootTest
 @ActiveProfiles("test")
 @Transactional
-class JPAMySQLApplicationTests {
+class JPAH2ApplicationTests {
 
 	Logger log = LoggerFactory.getLogger(getClass());
 

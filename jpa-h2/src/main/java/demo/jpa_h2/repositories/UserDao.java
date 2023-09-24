@@ -1,6 +1,6 @@
-package demo.jpa_mysql.repositories;
+package demo.jpa_h2.repositories;
 
-import demo.jpa_mysql.entities.User;
+import demo.jpa_h2.entities.User;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
@@ -13,7 +13,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.concurrent.ListenableFuture;
 
 /**

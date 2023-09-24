@@ -1,6 +1,6 @@
-package demo.jpa_mysql.services;
+package demo.jpa_h2.services;
 
-import demo.jpa_mysql.repositories.UserDao;
+import demo.jpa_h2.repositories.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

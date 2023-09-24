@@ -1,4 +1,4 @@
-package demo.jpa_mysql.entities;
+package demo.jpa_h2.entities;
 
 import lombok.Data;
 
@@ -19,7 +19,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class User {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
     private long id;
 
     @Column

@@ -1,7 +1,7 @@
-package demo.jpa_mysql.controllers;
+package demo.jpa_h2.controllers;
 
-import demo.jpa_mysql.entities.User;
-import demo.jpa_mysql.repositories.UserDao;
+import demo.jpa_h2.entities.User;
+import demo.jpa_h2.repositories.UserDao;
 
 import java.util.Collections;
 import java.util.Date;
@@ -82,6 +82,7 @@ public class UserController {
 
         for (int i = 0; i < numOfUsers; i++) {
             User newItem = new User();
+            newItem.setId(System.currentTimeMillis());
             newItem.setName(userNamePrefix + "_" + i);
             newItem.setPassword("Password INSERT NEW");
             newItem.setActive(false);
