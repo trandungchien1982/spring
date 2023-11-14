@@ -17,118 +17,216 @@ D:\Projects\spring
 
 ==============================================================
 
-# Ví dụ [10.DIAndIoC]
+# Ví dụ [11.AOP]
 ==============================================================
 
 **Tham khảo**
-- https://www.baeldung.com/spring-dependency-injection
-- https://www.baeldung.com/inversion-control-and-dependency-injection-in-spring
+- https://www.baeldung.com/spring-aop
+- https://www.baeldung.com/spring-aop-annotation
+- https://www.javainuse.com/spring/spring-boot-aop
+- https://howtodoinjava.com/spring-aop-tutorial/
 
-**Tìm hiểu DI - Dependency Injection**
-- Khái niệm DI
-- Ví dụ về cách viết code bình thường và code dạng DI
-- Implement DI trong Spring thông qua constructors, setters và fields
+**Tìm hiểu về các khái niệm cơ bản trong AOP (Aspect-Oriented Programming) - Lập trình hướng khía cạnh**
+- Aspect: Toàn bộ code liên quan đến phần xử lý AOP đã được module hóa
+- JoinPoint: 1 vị trí cụ thể khi execution app, ở đây sẽ refer đến vị trí của các method được gọi
+- PointCut: 1 pattern mô tả những vị trí cần xử lý (JoinPoint)
+- Advice: 1 event cụ thể xảy ra ứng với 1 JointPoint, vd như before/after/throw exception/...<br/>
+  (nó còn có 1 kiểu gọi khác là interceptor)
 
-**Tìm hiểu Spring IoC container**
-- Ví dụ về ApplicationContext
-- Ví dụ về Bean
-- Cơ chế AutoWiring các depedencies
+**Ứng dụng các khái niệm vào ví dụ cụ thể (Ở đây là ghi logs)**
+- Aspect: Các classes nằm trong package `aop.aspect_config`
+  - Aspect01Before đang handle 1 Advice dạng @Before
+  - Aspect02After đang handle 1 Advice dạng @After
+- `@Before(value = "execution(* aop.services.EmployeeService.*(..))")`
+  - Mô tả advice `Before`
+  - PointCut có phần filter là `execution(* aop.services.EmployeeService.*(..))`
+  - JointPoint là khi method thuộc class aop.services.EmployeeService được invoke.
+- Chốt lại, là khi 1 method nào đó của class `EmployeeService` được invoke <br/>
+  thì ta sẽ gọi logic xử lý nằm trong Aspect01Before.beforeAdvice()
 
-**Ví dụ về cách implement truyền thống, package `di_and_ioc.traditional`**
-- Ta kiểm soát toàn bộ việc khởi tạo object
-- Các thành phần object phụ thuộc chặt chẽ vào nhau, vd như Store bị dính chặt vào Item
+- Tương tự cho phần `Aspect02After, Aspect03AfterReturn, Aspect04Around, Aspect05AfterThrowing`
 
-**Ví dụ về cách implement sử dụng IoC và dùng DI để implementation, package `di_and_ioc.di`**
-- Ta định nghĩa việc tạo các object cần thiết ra 1 nơi riêng và trao quyền quản lý object cho IoC Container
-- Ta sử dụng các object instance được tạo ra tự động và tập trung vào xử lý business logic :
-	- ItemBean, FieldBean, SetterBean được định nghĩa rule để tạo mới object. Trong tương lai, mỗi lần cần 1 instance mới của ItemBean, FieldBean, SetterBean thì ta sẽ để IoC Container follow theo các rule đó để tạo ra instance của chúng.
-	- StoreBean cũng được định nghĩa rule để tạo mới object. Và tương tự cơ chế trên, ta sẽ có instance của StoreBean do IoC Container quản lý.
 
 **Kết quả thực thi**
 ```shell
-15:02:29.288 INFO  - Started MainApplication in 2.609 seconds (JVM running for 3.772)
-15:02:29.290 INFO  - 
------------------------- Traditional impl ... 
-15:02:29.291 INFO  -  >> Traditional: item object = Item(id=null, name=null)
-15:02:29.291 INFO  -  >> Traditional: item.id = null
-15:02:29.291 INFO  -  >> Traditional: item.name = null
-15:02:29.291 INFO  - 
------------------------- IoC / DI impl ... 
-15:02:29.291 INFO  - [DI] store object: di_and_ioc.di.StoreBean@199e4c2b
-15:02:29.292 INFO  - [DI] fieldBean: FieldBean(id=null, fieldData=null)
-15:02:29.292 INFO  - [DI] ConstructorBean: ItemBean(id=null, name=null)
-15:02:29.292 INFO  - [DI] setterBean: SetterBean(id=null, famousLevel=null)
-15:02:29.292 INFO  - 
------------------------- ApplicationContext object ...
-15:02:29.292 INFO  - [AppCtx] applicationName: 
-15:02:29.292 INFO  - [AppCtx] displayName: org.springframework.context.annotation.AnnotationConfigApplicationContext@1cf56a1c
-15:02:29.292 INFO  - [AppCtx] id: application
-15:02:29.292 INFO  - [AppCtx] beanDefinitionCount: 65
-15:02:29.292 INFO  - [AppCtx] beanDefinitionNames: [Ljava.lang.String;@6e0d4a8
-15:02:29.292 INFO  - [AppCtx]  --- beanName : org.springframework.context.annotation.internalConfigurationAnnotationProcessor
-15:02:29.292 INFO  - [AppCtx]  --- beanName : org.springframework.context.annotation.internalAutowiredAnnotationProcessor
-15:02:29.292 INFO  - [AppCtx]  --- beanName : org.springframework.context.annotation.internalCommonAnnotationProcessor
-15:02:29.292 INFO  - [AppCtx]  --- beanName : org.springframework.context.event.internalEventListenerProcessor
-15:02:29.292 INFO  - [AppCtx]  --- beanName : org.springframework.context.event.internalEventListenerFactory
-15:02:29.292 INFO  - [AppCtx]  --- beanName : mainApplication
-15:02:29.292 INFO  - [AppCtx]  --- beanName : org.springframework.boot.autoconfigure.internalCachingMetadataReaderFactory
-15:02:29.292 INFO  - [AppCtx]  --- beanName : appConfig
-15:02:29.293 INFO  - [AppCtx]  --- beanName : DIComponent
-15:02:29.293 INFO  - [AppCtx]  --- beanName : fieldBeanDefinition
-15:02:29.293 INFO  - [AppCtx]  --- beanName : itemBeanDefinition
-15:02:29.293 INFO  - [AppCtx]  --- beanName : setterBeanDefinition
-15:02:29.293 INFO  - [AppCtx]  --- beanName : storeDefinition
-15:02:29.293 INFO  - [AppCtx]  --- beanName : org.springframework.boot.autoconfigure.AutoConfigurationPackages
-15:02:29.293 INFO  - [AppCtx]  --- beanName : org.springframework.boot.autoconfigure.context.PropertyPlaceholderAutoConfiguration
-15:02:29.293 INFO  - [AppCtx]  --- beanName : propertySourcesPlaceholderConfigurer
-15:02:29.293 INFO  - [AppCtx]  --- beanName : org.springframework.boot.autoconfigure.task.TaskExecutionAutoConfiguration
-15:02:29.293 INFO  - [AppCtx]  --- beanName : taskExecutorBuilder
-15:02:29.293 INFO  - [AppCtx]  --- beanName : applicationTaskExecutor
-15:02:29.293 INFO  - [AppCtx]  --- beanName : org.springframework.boot.context.properties.ConfigurationPropertiesBindingPostProcessor
-15:02:29.293 INFO  - [AppCtx]  --- beanName : org.springframework.boot.context.internalConfigurationPropertiesBinderFactory
-15:02:29.293 INFO  - [AppCtx]  --- beanName : org.springframework.boot.context.internalConfigurationPropertiesBinder
-15:02:29.293 INFO  - [AppCtx]  --- beanName : org.springframework.boot.context.properties.BoundConfigurationProperties
-15:02:29.293 INFO  - [AppCtx]  --- beanName : org.springframework.boot.context.properties.EnableConfigurationPropertiesRegistrar.methodValidationExcludeFilter
-15:02:29.293 INFO  - [AppCtx]  --- beanName : spring.task.execution-org.springframework.boot.autoconfigure.task.TaskExecutionProperties
-15:02:29.293 INFO  - [AppCtx]  --- beanName : org.springframework.boot.autoconfigure.aop.AopAutoConfiguration$ClassProxyingConfiguration
-15:02:29.293 INFO  - [AppCtx]  --- beanName : forceAutoProxyCreatorToUseClassProxying
-15:02:29.293 INFO  - [AppCtx]  --- beanName : org.springframework.boot.autoconfigure.aop.AopAutoConfiguration
-15:02:29.293 INFO  - [AppCtx]  --- beanName : org.springframework.boot.autoconfigure.availability.ApplicationAvailabilityAutoConfiguration
-15:02:29.293 INFO  - [AppCtx]  --- beanName : applicationAvailability
-15:02:29.293 INFO  - [AppCtx]  --- beanName : org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration$Jackson2ObjectMapperBuilderCustomizerConfiguration
-15:02:29.294 INFO  - [AppCtx]  --- beanName : standardJacksonObjectMapperBuilderCustomizer
-15:02:29.294 INFO  - [AppCtx]  --- beanName : spring.jackson-org.springframework.boot.autoconfigure.jackson.JacksonProperties
-15:02:29.294 INFO  - [AppCtx]  --- beanName : org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration$JacksonObjectMapperBuilderConfiguration
-15:02:29.294 INFO  - [AppCtx]  --- beanName : jacksonObjectMapperBuilder
-15:02:29.294 INFO  - [AppCtx]  --- beanName : org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration$ParameterNamesModuleConfiguration
-15:02:29.294 INFO  - [AppCtx]  --- beanName : parameterNamesModule
-15:02:29.294 INFO  - [AppCtx]  --- beanName : org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration$JacksonObjectMapperConfiguration
-15:02:29.294 INFO  - [AppCtx]  --- beanName : jacksonObjectMapper
-15:02:29.294 INFO  - [AppCtx]  --- beanName : org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration
-15:02:29.294 INFO  - [AppCtx]  --- beanName : jsonComponentModule
-15:02:29.294 INFO  - [AppCtx]  --- beanName : jsonMixinModule
-15:02:29.294 INFO  - [AppCtx]  --- beanName : org.springframework.boot.autoconfigure.context.ConfigurationPropertiesAutoConfiguration
-15:02:29.294 INFO  - [AppCtx]  --- beanName : org.springframework.boot.autoconfigure.context.LifecycleAutoConfiguration
-15:02:29.294 INFO  - [AppCtx]  --- beanName : lifecycleProcessor
-15:02:29.294 INFO  - [AppCtx]  --- beanName : spring.lifecycle-org.springframework.boot.autoconfigure.context.LifecycleProperties
-15:02:29.294 INFO  - [AppCtx]  --- beanName : org.springframework.boot.autoconfigure.http.HttpMessageConvertersAutoConfiguration$StringHttpMessageConverterConfiguration
-15:02:29.294 INFO  - [AppCtx]  --- beanName : stringHttpMessageConverter
-15:02:29.294 INFO  - [AppCtx]  --- beanName : org.springframework.boot.autoconfigure.http.JacksonHttpMessageConvertersConfiguration$MappingJackson2HttpMessageConverterConfiguration
-15:02:29.294 INFO  - [AppCtx]  --- beanName : mappingJackson2HttpMessageConverter
-15:02:29.294 INFO  - [AppCtx]  --- beanName : org.springframework.boot.autoconfigure.http.JacksonHttpMessageConvertersConfiguration
-15:02:29.294 INFO  - [AppCtx]  --- beanName : org.springframework.boot.autoconfigure.http.HttpMessageConvertersAutoConfiguration
-15:02:29.294 INFO  - [AppCtx]  --- beanName : messageConverters
-15:02:29.294 INFO  - [AppCtx]  --- beanName : org.springframework.boot.autoconfigure.info.ProjectInfoAutoConfiguration
-15:02:29.294 INFO  - [AppCtx]  --- beanName : spring.info-org.springframework.boot.autoconfigure.info.ProjectInfoProperties
-15:02:29.294 INFO  - [AppCtx]  --- beanName : org.springframework.boot.autoconfigure.sql.init.SqlInitializationAutoConfiguration
-15:02:29.294 INFO  - [AppCtx]  --- beanName : spring.sql.init-org.springframework.boot.autoconfigure.sql.init.SqlInitializationProperties
-15:02:29.294 INFO  - [AppCtx]  --- beanName : org.springframework.boot.sql.init.dependency.DatabaseInitializationDependencyConfigurer$DependsOnDatabaseInitializationPostProcessor
-15:02:29.295 INFO  - [AppCtx]  --- beanName : org.springframework.boot.autoconfigure.task.TaskSchedulingAutoConfiguration
-15:02:29.295 INFO  - [AppCtx]  --- beanName : taskSchedulerBuilder
-15:02:29.295 INFO  - [AppCtx]  --- beanName : spring.task.scheduling-org.springframework.boot.autoconfigure.task.TaskSchedulingProperties
-15:02:29.295 INFO  - [AppCtx]  --- beanName : org.springframework.boot.autoconfigure.web.client.RestTemplateAutoConfiguration
-15:02:29.295 INFO  - [AppCtx]  --- beanName : restTemplateBuilderConfigurer
-15:02:29.295 INFO  - [AppCtx]  --- beanName : restTemplateBuilder
-15:02:29.295 INFO  - [AppCtx]  --- beanName : org.springframework.aop.config.internalAutoProxyCreator
+> Task :MainApplication.main()
 
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::               (v2.7.16)
+
+16:26:43.754 INFO  - Starting MainApplication using Java 11 on DESKTOP-R6P2IB2 with PID 10436 (D:\Projects\spring\AOP\build\classes\java\main started by tdc in D:\Projects\spring\AOP)
+16:26:43.756 INFO  - No active profile set, falling back to 1 default profile: "default"
+16:26:44.654 INFO  - Started MainApplication in 1.373 seconds (JVM running for 1.919)
+16:26:44.656 INFO  - 
+------------------------ Research AOP ... 
+16:26:44.660 INFO  - 
+16:26:44.661 INFO  - Before method:Employee aop.services.EmployeeService.createEmployee(String,String)
+16:26:44.661 INFO  -  -- [Before] joinPoint.signature.name:createEmployee
+16:26:44.661 INFO  -  -- [Before] joinPoint.kind: method-execution
+16:26:44.662 INFO  -  -- [Before] joinPoint.sourceLocation: org.springframework.aop.aspectj.MethodInvocationProceedingJoinPoint$SourceLocationImpl@167279d1
+16:26:44.662 INFO  -  -- [Before] joinPoint.staticPart: execution(Employee aop.services.EmployeeService.createEmployee(String,String))
+16:26:44.662 INFO  -  -- [Before] Current args : [EmpName01, EmpId01]
+16:26:44.662 INFO  -  -- args.length : 2
+16:26:44.662 INFO  -  ---- current arg: EmpName01, type: java.lang.String
+16:26:44.662 INFO  -  ---- current arg: EmpId01, type: java.lang.String
+16:26:44.662 INFO  - 
+16:26:44.662 INFO  - Around method:Employee aop.services.EmployeeService.createEmployee(String,String)
+16:26:44.662 INFO  -  -- [Around] joinPoint.signature.name:createEmployee
+16:26:44.662 INFO  -  -- [Around] joinPoint.kind: method-execution
+16:26:44.662 INFO  -  -- [Around] joinPoint.sourceLocation: org.springframework.aop.aspectj.MethodInvocationProceedingJoinPoint$SourceLocationImpl@138caeca
+16:26:44.662 INFO  -  -- [Around] joinPoint.staticPart: execution(Employee aop.services.EmployeeService.createEmployee(String,String))
+16:26:44.662 INFO  -  -- [Around] joinPoint.args : [EmpName01, EmpId01]
+16:26:44.662 INFO  -  -- args.length : 2
+16:26:44.662 INFO  -  ---- current arg: EmpName01, type: java.lang.String
+16:26:44.663 INFO  -  ---- current arg: EmpId01, type: java.lang.String
+16:26:44.886 INFO  -  .. Finish process of createEmployee(...)
+16:26:44.886 INFO  -  -- [Around] Total exec time : 223 millis
+16:26:44.886 INFO  -  -- [Around] Result : Employee(empId=EmpId01, name=EmpName01)
+16:26:44.886 INFO  - 
+16:26:44.886 INFO  - After returning method:Employee aop.services.EmployeeService.createEmployee(String,String)
+16:26:44.886 INFO  -  -- [AfterR] joinPoint.signature.name:createEmployee
+16:26:44.886 INFO  -  -- [AfterR] joinPoint.kind: method-execution
+16:26:44.886 INFO  -  -- [AfterR] joinPoint.sourceLocation: org.springframework.aop.aspectj.MethodInvocationProceedingJoinPoint$SourceLocationImpl@167279d1
+16:26:44.886 INFO  -  -- [AfterR] joinPoint.staticPart: execution(Employee aop.services.EmployeeService.createEmployee(String,String))
+16:26:44.886 INFO  -  -- [AfterR] joinPoint.args : [EmpName01, EmpId01]
+16:26:44.886 INFO  -  -- args.length : 2
+16:26:44.886 INFO  -  ---- current arg: EmpName01, type: java.lang.String
+16:26:44.886 INFO  -  ---- current arg: EmpId01, type: java.lang.String
+16:26:44.887 INFO  - 
+16:26:44.887 INFO  - After method:Employee aop.services.EmployeeService.createEmployee(String,String)
+16:26:44.887 INFO  -  -- [After] joinPoint.signature.name:createEmployee
+16:26:44.887 INFO  -  -- [After] joinPoint.kind: method-execution
+16:26:44.887 INFO  -  -- [After] joinPoint.sourceLocation: org.springframework.aop.aspectj.MethodInvocationProceedingJoinPoint$SourceLocationImpl@167279d1
+16:26:44.887 INFO  -  -- [After] joinPoint.staticPart: execution(Employee aop.services.EmployeeService.createEmployee(String,String))
+16:26:44.887 INFO  -  -- [After] joinPoint.args : [EmpName01, EmpId01]
+16:26:44.887 INFO  -  -- args.length : 2
+16:26:44.887 INFO  -  ---- current arg: EmpName01, type: java.lang.String
+16:26:44.887 INFO  -  ---- current arg: EmpId01, type: java.lang.String
+16:26:44.887 INFO  - 
+16:26:44.887 INFO  - Before method:void aop.services.EmployeeService.updateEmployee(String,Employee,int)
+16:26:44.887 INFO  -  -- [Before] joinPoint.signature.name:updateEmployee
+16:26:44.887 INFO  -  -- [Before] joinPoint.kind: method-execution
+16:26:44.887 INFO  -  -- [Before] joinPoint.sourceLocation: org.springframework.aop.aspectj.MethodInvocationProceedingJoinPoint$SourceLocationImpl@552ed807
+16:26:44.887 INFO  -  -- [Before] joinPoint.staticPart: execution(void aop.services.EmployeeService.updateEmployee(String,Employee,int))
+16:26:44.888 INFO  -  -- [Before] Current args : [curEmpId, Employee(empId=null, name=null), 123]
+16:26:44.888 INFO  -  -- args.length : 3
+16:26:44.888 INFO  -  ---- current arg: curEmpId, type: java.lang.String
+16:26:44.888 INFO  -  ---- current arg: Employee(empId=null, name=null), type: aop.entities.Employee
+16:26:44.888 INFO  -  ---- current arg: 123, type: java.lang.Integer
+16:26:44.888 INFO  - 
+16:26:44.888 INFO  - Around method:void aop.services.EmployeeService.updateEmployee(String,Employee,int)
+16:26:44.888 INFO  -  -- [Around] joinPoint.signature.name:updateEmployee
+16:26:44.888 INFO  -  -- [Around] joinPoint.kind: method-execution
+16:26:44.888 INFO  -  -- [Around] joinPoint.sourceLocation: org.springframework.aop.aspectj.MethodInvocationProceedingJoinPoint$SourceLocationImpl@3971f0fe
+16:26:44.888 INFO  -  -- [Around] joinPoint.staticPart: execution(void aop.services.EmployeeService.updateEmployee(String,Employee,int))
+16:26:44.888 INFO  -  -- [Around] joinPoint.args : [curEmpId, Employee(empId=null, name=null), 123]
+16:26:44.888 INFO  -  -- args.length : 3
+16:26:44.888 INFO  -  ---- current arg: curEmpId, type: java.lang.String
+16:26:44.888 INFO  -  ---- current arg: Employee(empId=null, name=null), type: aop.entities.Employee
+16:26:44.888 INFO  -  ---- current arg: 123, type: java.lang.Integer
+16:26:44.996 INFO  -  .. Finish process of updateEmployee(...)
+16:26:44.996 INFO  -  -- [Around] Total exec time : 108 millis
+16:26:44.996 INFO  -  -- [Around] Result : null
+16:26:44.996 INFO  - 
+16:26:44.996 INFO  - After returning method:void aop.services.EmployeeService.updateEmployee(String,Employee,int)
+16:26:44.996 INFO  -  -- [AfterR] joinPoint.signature.name:updateEmployee
+16:26:44.996 INFO  -  -- [AfterR] joinPoint.kind: method-execution
+16:26:44.996 INFO  -  -- [AfterR] joinPoint.sourceLocation: org.springframework.aop.aspectj.MethodInvocationProceedingJoinPoint$SourceLocationImpl@552ed807
+16:26:44.996 INFO  -  -- [AfterR] joinPoint.staticPart: execution(void aop.services.EmployeeService.updateEmployee(String,Employee,int))
+16:26:44.996 INFO  -  -- [AfterR] joinPoint.args : [curEmpId, Employee(empId=curEmpId, name=NameWithAge: 123), 123]
+16:26:44.996 INFO  -  -- args.length : 3
+16:26:44.996 INFO  -  ---- current arg: curEmpId, type: java.lang.String
+16:26:44.996 INFO  -  ---- current arg: Employee(empId=curEmpId, name=NameWithAge: 123), type: aop.entities.Employee
+16:26:44.996 INFO  -  ---- current arg: 123, type: java.lang.Integer
+16:26:44.996 INFO  - 
+16:26:44.996 INFO  - After method:void aop.services.EmployeeService.updateEmployee(String,Employee,int)
+16:26:44.996 INFO  -  -- [After] joinPoint.signature.name:updateEmployee
+16:26:44.996 INFO  -  -- [After] joinPoint.kind: method-execution
+16:26:44.996 INFO  -  -- [After] joinPoint.sourceLocation: org.springframework.aop.aspectj.MethodInvocationProceedingJoinPoint$SourceLocationImpl@552ed807
+16:26:44.997 INFO  -  -- [After] joinPoint.staticPart: execution(void aop.services.EmployeeService.updateEmployee(String,Employee,int))
+16:26:44.997 INFO  -  -- [After] joinPoint.args : [curEmpId, Employee(empId=curEmpId, name=NameWithAge: 123), 123]
+16:26:44.997 INFO  -  -- args.length : 3
+16:26:44.997 INFO  -  ---- current arg: curEmpId, type: java.lang.String
+16:26:44.997 INFO  -  ---- current arg: Employee(empId=curEmpId, name=NameWithAge: 123), type: aop.entities.Employee
+16:26:44.997 INFO  -  ---- current arg: 123, type: java.lang.Integer
+16:26:44.997 INFO  - 
+16:26:44.997 INFO  - Before method:void aop.services.EmployeeService.deleteEmployee(String)
+16:26:44.997 INFO  -  -- [Before] joinPoint.signature.name:deleteEmployee
+16:26:44.997 INFO  -  -- [Before] joinPoint.kind: method-execution
+16:26:44.997 INFO  -  -- [Before] joinPoint.sourceLocation: org.springframework.aop.aspectj.MethodInvocationProceedingJoinPoint$SourceLocationImpl@23940f86
+16:26:44.999 INFO  -  -- [Before] joinPoint.staticPart: execution(void aop.services.EmployeeService.deleteEmployee(String))
+16:26:44.999 INFO  -  -- [Before] Current args : [EmpId02]
+16:26:44.999 INFO  -  -- args.length : 1
+16:26:44.999 INFO  -  ---- current arg: EmpId02, type: java.lang.String
+16:26:44.999 INFO  - 
+16:26:44.999 INFO  - Around method:void aop.services.EmployeeService.deleteEmployee(String)
+16:26:44.999 INFO  -  -- [Around] joinPoint.signature.name:deleteEmployee
+16:26:44.999 INFO  -  -- [Around] joinPoint.kind: method-execution
+16:26:44.999 INFO  -  -- [Around] joinPoint.sourceLocation: org.springframework.aop.aspectj.MethodInvocationProceedingJoinPoint$SourceLocationImpl@66153688
+16:26:45.000 INFO  -  -- [Around] joinPoint.staticPart: execution(void aop.services.EmployeeService.deleteEmployee(String))
+16:26:45.000 INFO  -  -- [Around] joinPoint.args : [EmpId02]
+16:26:45.000 INFO  -  -- args.length : 1
+16:26:45.000 INFO  -  ---- current arg: EmpId02, type: java.lang.String
+16:26:45.012 INFO  -  .. Finish process of deleteEmployee(...)
+16:26:45.012 INFO  -  -- [Around] Total exec time : 12 millis
+16:26:45.012 INFO  -  -- [Around] Result : null
+16:26:45.012 INFO  - 
+16:26:45.012 INFO  - After returning method:void aop.services.EmployeeService.deleteEmployee(String)
+16:26:45.012 INFO  -  -- [AfterR] joinPoint.signature.name:deleteEmployee
+16:26:45.012 INFO  -  -- [AfterR] joinPoint.kind: method-execution
+16:26:45.012 INFO  -  -- [AfterR] joinPoint.sourceLocation: org.springframework.aop.aspectj.MethodInvocationProceedingJoinPoint$SourceLocationImpl@23940f86
+16:26:45.012 INFO  -  -- [AfterR] joinPoint.staticPart: execution(void aop.services.EmployeeService.deleteEmployee(String))
+16:26:45.012 INFO  -  -- [AfterR] joinPoint.args : [EmpId02]
+16:26:45.012 INFO  -  -- args.length : 1
+16:26:45.012 INFO  -  ---- current arg: EmpId02, type: java.lang.String
+16:26:45.012 INFO  - 
+16:26:45.013 INFO  - After method:void aop.services.EmployeeService.deleteEmployee(String)
+16:26:45.013 INFO  -  -- [After] joinPoint.signature.name:deleteEmployee
+16:26:45.013 INFO  -  -- [After] joinPoint.kind: method-execution
+16:26:45.013 INFO  -  -- [After] joinPoint.sourceLocation: org.springframework.aop.aspectj.MethodInvocationProceedingJoinPoint$SourceLocationImpl@23940f86
+16:26:45.013 INFO  -  -- [After] joinPoint.staticPart: execution(void aop.services.EmployeeService.deleteEmployee(String))
+16:26:45.013 INFO  -  -- [After] joinPoint.args : [EmpId02]
+16:26:45.013 INFO  -  -- args.length : 1
+16:26:45.013 INFO  -  ---- current arg: EmpId02, type: java.lang.String
+16:26:45.013 INFO  - 
+16:26:45.013 INFO  - Before method:void aop.services.EmployeeService.executeWithException(String)
+16:26:45.014 INFO  -  -- [Before] joinPoint.signature.name:executeWithException
+16:26:45.014 INFO  -  -- [Before] joinPoint.kind: method-execution
+16:26:45.014 INFO  -  -- [Before] joinPoint.sourceLocation: org.springframework.aop.aspectj.MethodInvocationProceedingJoinPoint$SourceLocationImpl@455824ad
+16:26:45.014 INFO  -  -- [Before] joinPoint.staticPart: execution(void aop.services.EmployeeService.executeWithException(String))
+16:26:45.014 INFO  -  -- [Before] Current args : [testEmpId]
+16:26:45.014 INFO  -  -- args.length : 1
+16:26:45.014 INFO  -  ---- current arg: testEmpId, type: java.lang.String
+16:26:45.014 INFO  - 
+16:26:45.014 INFO  - Around method:void aop.services.EmployeeService.executeWithException(String)
+16:26:45.014 INFO  -  -- [Around] joinPoint.signature.name:executeWithException
+16:26:45.014 INFO  -  -- [Around] joinPoint.kind: method-execution
+16:26:45.014 INFO  -  -- [Around] joinPoint.sourceLocation: org.springframework.aop.aspectj.MethodInvocationProceedingJoinPoint$SourceLocationImpl@7318daf8
+16:26:45.014 INFO  -  -- [Around] joinPoint.staticPart: execution(void aop.services.EmployeeService.executeWithException(String))
+16:26:45.014 INFO  -  -- [Around] joinPoint.args : [testEmpId]
+16:26:45.014 INFO  -  -- args.length : 1
+16:26:45.014 INFO  -  ---- current arg: testEmpId, type: java.lang.String
+16:26:45.019 INFO  - 
+16:26:45.019 INFO  - After throwing method:void aop.services.EmployeeService.executeWithException(String)
+16:26:45.019 INFO  -  -- [AfterThr] joinPoint.signature.name:executeWithException
+16:26:45.019 INFO  -  -- [AfterThr] joinPoint.kind: method-execution
+16:26:45.019 INFO  -  -- [AfterThr] joinPoint.sourceLocation: org.springframework.aop.aspectj.MethodInvocationProceedingJoinPoint$SourceLocationImpl@455824ad
+16:26:45.019 INFO  -  -- [AfterThr] joinPoint.staticPart: execution(void aop.services.EmployeeService.executeWithException(String))
+16:26:45.019 INFO  -  -- [AfterThr] joinPoint.args : [testEmpId]
+16:26:45.019 INFO  -  -- args.length : 1
+16:26:45.019 INFO  -  ---- current arg: testEmpId, type: java.lang.String
+16:26:45.019 INFO  - 
+16:26:45.019 INFO  - After method:void aop.services.EmployeeService.executeWithException(String)
+16:26:45.019 INFO  -  -- [After] joinPoint.signature.name:executeWithException
+16:26:45.019 INFO  -  -- [After] joinPoint.kind: method-execution
+16:26:45.019 INFO  -  -- [After] joinPoint.sourceLocation: org.springframework.aop.aspectj.MethodInvocationProceedingJoinPoint$SourceLocationImpl@455824ad
+16:26:45.019 INFO  -  -- [After] joinPoint.staticPart: execution(void aop.services.EmployeeService.executeWithException(String))
+16:26:45.019 INFO  -  -- [After] joinPoint.args : [testEmpId]
+16:26:45.019 INFO  -  -- args.length : 1
+16:26:45.019 INFO  -  ---- current arg: testEmpId, type: java.lang.String
 ```
