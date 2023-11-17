@@ -31,21 +31,75 @@ D:\Projects\spring
 - Model: Chứa các object data để xử lý map vào View Template (chẳng hạn như file HTML/JSP/FreeMarker/...)
 
 **Ví dụ `mvc-basic`**
-- Truy cập trang:
+- Truy cập trang tự động sử dụng `RestTemplate` + `CommandLineRunner` của Spring Boot:
 ```shell
-http://localhost:5800
 http://localhost:5800/greeting
+------------------------------------------------------------------------------------------
+10:44:59.961 INFO  - Tomcat initialized with port(s): 5800 (http)
+10:44:59.970 INFO  - Initializing ProtocolHandler ["http-nio-5800"]
+10:44:59.973 INFO  - Starting service [Tomcat]
+10:44:59.974 INFO  - Starting Servlet engine: [Apache Tomcat/9.0.80]
+10:45:00.058 INFO  - Initializing Spring embedded WebApplicationContext
+10:45:00.058 INFO  - Root WebApplicationContext: initialization completed in 1926 ms
+10:45:00.349 INFO  - Adding welcome page: class path resource [static/index.html]
+10:45:00.527 INFO  - LiveReload server is running on port 35729
+10:45:00.541 INFO  - Starting ProtocolHandler ["http-nio-5800"]
+10:45:00.566 INFO  - Tomcat started on port(s): 5800 (http) with context path ''
+10:45:00.579 INFO  - Started MainApplication in 2.965 seconds (JVM running for 3.59)
+10:45:00.581 INFO  - Start running CLI for SpringMVC + BasicMode ...
+10:45:00.693 INFO  - Initializing Spring DispatcherServlet 'dispatcherServlet'
+10:45:00.694 INFO  - Initializing Servlet 'dispatcherServlet'
+10:45:00.695 INFO  - Completed initialization in 1 ms
+10:45:00.730 INFO  -  ---- [MVC-Basic] The GET method ... 
+10:45:01.009 INFO  -  ---> Result GET: <!DOCTYPE HTML>
+<html>
+<head> 
+    <title>Getting Started: Serving Web Content</title> 
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+    <p >Hello, World!</p>
+</body>
+</html>
+
+10:45:01.009 INFO  -  >> We will stop the JavaApp now. Bye bye ...
+
 ```
 
 **Ví dụ `mvc-interceptors`**
-- Truy cập trang:
+- Truy cập trang tự động sử dụng `RestTemplate` + `CommandLineRunner` của Spring Boot:
 ```shell
+http://localhost:5810/greeting
+------------------------------------------------------------------------------------------
+10:37:42.845 INFO  - Tomcat initialized with port(s): 5810 (http)
+10:37:42.854 INFO  - Initializing ProtocolHandler ["http-nio-5810"]
+10:37:42.857 INFO  - Starting service [Tomcat]
+10:37:42.857 INFO  - Starting Servlet engine: [Apache Tomcat/9.0.80]
+10:37:42.969 INFO  - Initializing Spring embedded WebApplicationContext
+10:37:42.969 INFO  - Root WebApplicationContext: initialization completed in 1790 ms
+10:37:43.285 INFO  - Adding welcome page: class path resource [static/index.html]
+10:37:43.465 INFO  - Starting ProtocolHandler ["http-nio-5810"]
+10:37:43.493 INFO  - Tomcat started on port(s): 5810 (http) with context path ''
+10:37:43.507 INFO  - Started MainApplication in 2.987 seconds (JVM running for 3.646)
+10:37:43.510 INFO  - Start running CLI for SpringMVC + Interceptors ...
+10:37:43.632 INFO  - Initializing Spring DispatcherServlet 'dispatcherServlet'
+10:37:43.633 INFO  - Initializing Servlet 'dispatcherServlet'
+10:37:43.634 INFO  - Completed initialization in 1 ms
+10:37:43.658 INFO  -  -------- preHandle() : mvc.controllers.GreetingController#greeting(String, Model)
+10:37:43.678 INFO  -  --------- The GET method: greeting() ... 
+10:37:43.682 INFO  -  -------- postHandle() : mvc.controllers.GreetingController#greeting(String, Model)
+10:37:44.108 INFO  -  -------- afterCompletion() : mvc.controllers.GreetingController#greeting(String, Model)
 
-```
+10:37:44.116 INFO  -  ---> Result GET: <!DOCTYPE HTML>
+<html>
+<head> 
+    <title>Getting Started: Serving Web Content</title> 
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+    <p >Hello, World!</p>
+</body>
+</html>
 
-
-**Kết quả thực thi**
-```shell
-
-
+10:37:44.117 INFO  -  >> We will stop the JavaApp now. Bye bye ...
 ```

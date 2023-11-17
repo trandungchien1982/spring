@@ -6,14 +6,11 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.reactive.function.client.WebClient;
 
 @SpringBootApplication
 public class MainApplication implements CommandLineRunner {
 
     private Logger log = LoggerFactory.getLogger(getClass());
-
-
 
     public static void main(String[] args) {
         SpringApplication.run(MainApplication.class, args);
