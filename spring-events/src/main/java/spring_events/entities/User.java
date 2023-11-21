@@ -1,4 +1,4 @@
-package demo.helloworld.entities;
+package spring_events.entities;
 
 import lombok.Data;
 
@@ -6,13 +6,14 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.util.Date;
 
 @Entity
-@Table(name = "users")
+@Table(name = "user")
 @Data
 public class User {
     @Id
-    @Column(name = "user_id")
+    @Column(name = "id")
     Long userId;
 
     @Column(name = "name")
@@ -20,4 +21,7 @@ public class User {
 
     @Column(name = "age")
     Integer age;
+
+    @Column(name = "create_date")
+    Date createDate;
 }

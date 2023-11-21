@@ -1,6 +1,6 @@
-package demo.helloworld.repositories;
+package spring_events.repositories;
 
-import demo.helloworld.entities.User;
+import spring_events.entities.User;
 import org.springframework.data.repository.CrudRepository;
 
 import javax.persistence.Id;

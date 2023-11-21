@@ -1,10 +1,10 @@
-package demo.helloworld;
+package spring_events;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class HelloWorldApplicationTests {
+class SpringEventsApplicationTests {
 
 	@Test
 	void contextLoads() {
