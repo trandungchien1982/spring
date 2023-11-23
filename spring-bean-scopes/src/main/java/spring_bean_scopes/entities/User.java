@@ -1,4 +1,4 @@
-package spring_events.entities;
+package spring_bean_scopes.entities;
 
 import lombok.Data;
 

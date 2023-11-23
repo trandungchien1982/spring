@@ -1,4 +1,4 @@
-package spring_events;
+package spring_bean_scopes;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
