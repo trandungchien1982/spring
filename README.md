@@ -17,89 +17,102 @@ D:\Projects\spring
 
 ==============================================================
 
-# Ví dụ [12.MVC]
+# Ví dụ [15.WebSocket]
 ==============================================================
 
 **Tham khảo**
-- https://www.javatpoint.com/spring-mvc-tutorial
-- https://spring.io/guides/gs/serving-web-content/
-- https://hocspringboot.net/2021/04/17/spring-boot-interceptor/
+- https://spring.io/guides/gs/messaging-stomp-websocket/
+- https://www.baeldung.com/websockets-spring
+- https://medium.com/stackademic/websockets-in-spring-boot-how-to-build-real-time-applications-95a4fd0c7ec8
+- https://docs.spring.io/spring-framework/docs/5.0.0.M5/spring-framework-reference/html/websocket.html
+- https://www.toptal.com/java/stomp-spring-boot-websocket
 
-**Tìm hiểu về MVC**
-- Controllers: Đảm nhận presentations
-- View: Chứa các xử lý UI (HTML/CSS/JS)
-- Model: Chứa các object data để xử lý map vào View Template (chẳng hạn như file HTML/JSP/FreeMarker/...)
+**Tìm hiểu về WebSocket trong Spring**
+- Config WebSocket để tạo kết nối 2 chiều (Server/Multi-Clients)
+- Tạo 1 UI có HTML/JS để kết nối WebSocket đến Spring App và giả lập 1 chương trình Chat trên browser.
 
-**Ví dụ `mvc-basic`**
-- Truy cập trang tự động sử dụng `RestTemplate` + `CommandLineRunner` của Spring Boot:
+**Khởi động `spring-web-socket` server (Backend side)**<br/>
+- Spring App chạy ở cổng **8055**
+- WebSocket Server mở cổng **8055** với endpoint: `/gs-guide-websocket` để các Clients kết nối vào<br/>
+  (Sử dụng giao thức STORM)
 ```shell
-http://localhost:5800/greeting
-------------------------------------------------------------------------------------------
-10:44:59.961 INFO  - Tomcat initialized with port(s): 5800 (http)
-10:44:59.970 INFO  - Initializing ProtocolHandler ["http-nio-5800"]
-10:44:59.973 INFO  - Starting service [Tomcat]
-10:44:59.974 INFO  - Starting Servlet engine: [Apache Tomcat/9.0.80]
-10:45:00.058 INFO  - Initializing Spring embedded WebApplicationContext
-10:45:00.058 INFO  - Root WebApplicationContext: initialization completed in 1926 ms
-10:45:00.349 INFO  - Adding welcome page: class path resource [static/index.html]
-10:45:00.527 INFO  - LiveReload server is running on port 35729
-10:45:00.541 INFO  - Starting ProtocolHandler ["http-nio-5800"]
-10:45:00.566 INFO  - Tomcat started on port(s): 5800 (http) with context path ''
-10:45:00.579 INFO  - Started MainApplication in 2.965 seconds (JVM running for 3.59)
-10:45:00.581 INFO  - Start running CLI for SpringMVC + BasicMode ...
-10:45:00.693 INFO  - Initializing Spring DispatcherServlet 'dispatcherServlet'
-10:45:00.694 INFO  - Initializing Servlet 'dispatcherServlet'
-10:45:00.695 INFO  - Completed initialization in 1 ms
-10:45:00.730 INFO  -  ---- [MVC-Basic] The GET method ... 
-10:45:01.009 INFO  -  ---> Result GET: <!DOCTYPE HTML>
-<html>
-<head> 
-    <title>Getting Started: Serving Web Content</title> 
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-</head>
-<body>
-    <p >Hello, World!</p>
-</body>
-</html>
-
-10:45:01.009 INFO  -  >> We will stop the JavaApp now. Bye bye ...
-
+const stompClient = new StompJs.Client({
+    brokerURL: 'ws://localhost:8055/gs-guide-websocket'
+});
 ```
 
-**Ví dụ `mvc-interceptors`**
-- Truy cập trang tự động sử dụng `RestTemplate` + `CommandLineRunner` của Spring Boot:
+- Các Clients sẽ subscribe topic: `/topic/greetings`
 ```shell
-http://localhost:5810/greeting
-------------------------------------------------------------------------------------------
-10:37:42.845 INFO  - Tomcat initialized with port(s): 5810 (http)
-10:37:42.854 INFO  - Initializing ProtocolHandler ["http-nio-5810"]
-10:37:42.857 INFO  - Starting service [Tomcat]
-10:37:42.857 INFO  - Starting Servlet engine: [Apache Tomcat/9.0.80]
-10:37:42.969 INFO  - Initializing Spring embedded WebApplicationContext
-10:37:42.969 INFO  - Root WebApplicationContext: initialization completed in 1790 ms
-10:37:43.285 INFO  - Adding welcome page: class path resource [static/index.html]
-10:37:43.465 INFO  - Starting ProtocolHandler ["http-nio-5810"]
-10:37:43.493 INFO  - Tomcat started on port(s): 5810 (http) with context path ''
-10:37:43.507 INFO  - Started MainApplication in 2.987 seconds (JVM running for 3.646)
-10:37:43.510 INFO  - Start running CLI for SpringMVC + Interceptors ...
-10:37:43.632 INFO  - Initializing Spring DispatcherServlet 'dispatcherServlet'
-10:37:43.633 INFO  - Initializing Servlet 'dispatcherServlet'
-10:37:43.634 INFO  - Completed initialization in 1 ms
-10:37:43.658 INFO  -  -------- preHandle() : mvc.controllers.GreetingController#greeting(String, Model)
-10:37:43.678 INFO  -  --------- The GET method: greeting() ... 
-10:37:43.682 INFO  -  -------- postHandle() : mvc.controllers.GreetingController#greeting(String, Model)
-10:37:44.108 INFO  -  -------- afterCompletion() : mvc.controllers.GreetingController#greeting(String, Model)
+stompClient.subscribe('/topic/greetings', (greeting) => {
+    showGreeting(JSON.parse(greeting.body).content);
+});
+```
 
-10:37:44.116 INFO  -  ---> Result GET: <!DOCTYPE HTML>
-<html>
-<head> 
-    <title>Getting Started: Serving Web Content</title> 
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-</head>
-<body>
-    <p >Hello, World!</p>
-</body>
-</html>
+**Start Server & kết nối 3 clients khác nhau**<br/>
+Mỗi Clients sẽ có 1 name khác nhau và gửi vài message lên server <br/>
+(JSON data và được mapping thành `ClientMessage`)<br/>
+=> Tất cả các Clients đều sẽ được nhận message giống nhau từ phía server gửi về thông qua `ServerMessage`
+```shell
+./gradlew bootRun
+-----------------------------------------------------------
+> Task :bootRun
 
-10:37:44.117 INFO  -  >> We will stop the JavaApp now. Bye bye ...
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::               (v2.7.16)
+
+22:56:16.888 INFO  - Starting MainApplication using Java 17.0.8 on MacBook-Air-cua-Doan.local with PID 31131 (/Users/tdc/spring/spring-web-socket/build/classes/java/main started by tdc in /Users/tdc/spring/spring-web-socket)
+22:56:16.891 INFO  - No active profile set, falling back to 1 default profile: "default"
+22:56:18.560 INFO  - Tomcat initialized with port(s): 8055 (http)
+22:56:18.575 INFO  - Initializing ProtocolHandler ["http-nio-8055"]
+22:56:18.579 INFO  - Starting service [Tomcat]
+22:56:18.579 INFO  - Starting Servlet engine: [Apache Tomcat/9.0.80]
+22:56:18.740 INFO  - Initializing Spring embedded WebApplicationContext
+22:56:18.740 INFO  - Root WebApplicationContext: initialization completed in 1797 ms
+22:56:19.168 INFO  - Adding welcome page: class path resource [static/index.html]
+22:56:19.288 WARN  - Cannot find template location: classpath:/templates/ (please add some templates, check your Thymeleaf configuration, or set spring.thymeleaf.check-template-location=false)
+22:56:19.332 INFO  - Starting ProtocolHandler ["http-nio-8055"]
+22:56:19.381 INFO  - Tomcat started on port(s): 8055 (http) with context path ''
+22:56:19.383 INFO  - Starting...
+22:56:19.383 INFO  - BrokerAvailabilityEvent[available=true, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@3f183caa]]
+22:56:19.384 INFO  - Started.
+22:56:19.396 INFO  - Started MainApplication in 2.889 seconds (JVM running for 3.353)
+22:56:19.398 INFO  - Start running CLI for Spring WebSocket ...
+22:56:22.947 INFO  - Initializing Spring DispatcherServlet 'dispatcherServlet'
+22:56:22.947 INFO  - Initializing Servlet 'dispatcherServlet'
+22:56:22.948 INFO  - Completed initialization in 1 ms
+22:56:39.185 INFO  - [ChatController] :: Received message from /chat : ClientMessage(name=User01)
+22:56:39.185 INFO  - [ChatController] :: Routing message to all subscriber of /topic/messages
+22:56:45.554 INFO  - [ChatController] :: Received message from /chat : ClientMessage(name=User02)
+22:56:45.555 INFO  - [ChatController] :: Routing message to all subscriber of /topic/messages
+22:56:45.894 INFO  - [ChatController] :: Received message from /chat : ClientMessage(name=User02)
+22:56:45.894 INFO  - [ChatController] :: Routing message to all subscriber of /topic/messages
+22:56:52.385 INFO  - [ChatController] :: Received message from /chat : ClientMessage(name=User03)
+22:56:52.385 INFO  - [ChatController] :: Routing message to all subscriber of /topic/messages
+22:56:55.847 INFO  - [ChatController] :: Try to broadcast a new message from Server, chatIdx: 1, destination: /topic/greetings
+22:56:57.484 INFO  - [ChatController] :: Try to broadcast a new message from Server, chatIdx: 2, destination: /topic/greetings
+22:56:57.866 INFO  - [ChatController] :: Try to broadcast a new message from Server, chatIdx: 3, destination: /topic/greetings
+22:56:58.246 INFO  - [ChatController] :: Try to broadcast a new message from Server, chatIdx: 4, destination: /topic/greetings
+22:56:58.665 INFO  - [ChatController] :: Try to broadcast a new message from Server, chatIdx: 5, destination: /topic/greetings
+22:56:59.059 INFO  - [ChatController] :: Try to broadcast a new message from Server, chatIdx: 6, destination: /topic/greetings
+22:56:59.450 INFO  - [ChatController] :: Try to broadcast a new message from Server, chatIdx: 7, destination: /topic/greetings
+22:57:01.773 INFO  - [ChatController] :: Received message from /chat : ClientMessage(name=User01)
+22:57:01.773 INFO  - [ChatController] :: Routing message to all subscriber of /topic/messages
+22:57:04.531 INFO  - [ChatController] :: Received message from /chat : ClientMessage(name=User02)
+22:57:04.531 INFO  - [ChatController] :: Routing message to all subscriber of /topic/messages
+22:57:06.359 INFO  - [ChatController] :: Received message from /chat : ClientMessage(name=User03)
+22:57:06.359 INFO  - [ChatController] :: Routing message to all subscriber of /topic/messages
+22:57:07.951 INFO  - [ChatController] :: Try to broadcast a new message from Server, chatIdx: 8, destination: /topic/greetings
+22:57:08.121 INFO  - [ChatController] :: Try to broadcast a new message from Server, chatIdx: 9, destination: /topic/greetings
+22:57:18.422 INFO  - [ChatController] :: Received message from /chat : ClientMessage(name=User03)
+22:57:18.422 INFO  - [ChatController] :: Routing message to all subscriber of /topic/messages
+22:57:18.982 INFO  - WebSocketSession[3 current WS(3)-HttpStream(0)-HttpPoll(0), 3 total, 0 closed abnormally (0 connect failure, 0 send limit, 0 transport error)], stompSubProtocol[processed CONNECT(3)-CONNECTED(3)-DISCONNECT(0)], stompBrokerRelay[null], inboundChannel[pool size = 8, active threads = 0, queued tasks = 0, completed tasks = 42], outboundChannel[pool size = 8, active threads = 0, queued tasks = 0, completed tasks = 50], sockJsScheduler[pool size = 1, active threads = 1, queued tasks = 0, completed tasks = 0]
+22:57:20.341 INFO  - [ChatController] :: Try to broadcast a new message from Server, chatIdx: 10, destination: /topic/greetings
+<==========---> 80% EXECUTING [2m 36s]
+> :bootRun
+
 ```
