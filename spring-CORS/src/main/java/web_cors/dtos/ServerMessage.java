@@ -1,4 +1,4 @@
-package web_socket.dtos;
+package web_cors.dtos;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

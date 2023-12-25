@@ -1,4 +1,4 @@
-package web_socket.controllers;
+package web_cors.controllers;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,8 +9,8 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.HtmlUtils;
-import web_socket.dtos.ClientMessage;
-import web_socket.dtos.ServerMessage;
+import web_cors.dtos.ClientMessage;
+import web_cors.dtos.ServerMessage;
 
 @RestController
 public class ChatController {

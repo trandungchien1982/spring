@@ -1,4 +1,4 @@
-package web_socket;
+package web_cors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

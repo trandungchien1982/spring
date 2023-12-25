@@ -1,4 +1,4 @@
-package web_socket.configs;
+package web_cors.configs;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
