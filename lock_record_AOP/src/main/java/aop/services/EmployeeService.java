@@ -1,5 +1,9 @@
 package aop.services;
 
+import aop.aspect_config.GetIdForGroup01;
+import aop.aspect_config.GetIdHelper;
+import aop.aspect_config.GetLockRecord;
+import aop.aspect_config.ReleaseLockRecord;
 import aop.entities.Employee;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,6 +14,7 @@ public class EmployeeService {
 
     Logger log = LoggerFactory.getLogger(getClass());
 
+    @ReleaseLockRecord(value="Test02", resourceName = "students")
     public void updateEmployee(String empId, Employee emp, int newAge) {
         emp.setEmpId(empId);
         emp.setName("NameWithAge: " + newAge);
@@ -20,6 +25,7 @@ public class EmployeeService {
         log.info(" .. Finish process of updateEmployee(...)");
     }
 
+    @GetLockRecord(value="TestData", resourceName = "students")
     public Employee createEmployee(String name, String empId) {
         Employee emp = new Employee();
         emp.setName(name);

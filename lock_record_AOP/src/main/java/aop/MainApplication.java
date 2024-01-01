@@ -22,7 +22,7 @@ public class MainApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		log.info("\n------------------------ Research AOP ... ");
+		log.info("\n------------------------ LockRecord Application ... ");
 		employeeController.addEmployee("EmpName01", "EmpId01");
 		employeeController.updateEmployee();
 		employeeController.removeEmployee("EmpId02");
