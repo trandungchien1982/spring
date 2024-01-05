@@ -44,7 +44,7 @@ const stompClient = new StompJs.Client({
 });
 ```
 
-- Các Clients sẽ subscribe các topic khau, mỗi topic thuộc 1 chat room: 
+- Các Clients sẽ subscribe các topic khác nhau, mỗi topic thuộc 1 chat room: 
   - `/topic/greetings`
   - `/topic/greetings/room1`
   - `/topic/greetings/room2`
