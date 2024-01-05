@@ -17,6 +17,6 @@ public class MainApplication implements CommandLineRunner {
 
   @Override
   public void run(String... args) {
-    log.info("Start running CLI for Spring WebSocket ...");
+    log.info("Start running CLI for Spring WebSocket with 3 Chat Room ...");
   }
 }
