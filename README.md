@@ -105,3 +105,4 @@ Mỗi Clients sẽ có 1 name khác nhau và gửi vài` `message lên server <b
 23:36:56.654 INFO  - [ChatRoom2] :: Try to broadcast a new message from Server, chatIdx: 2, destination: /topic/greetings/room2
 
 ```
+Them dong moi tu he thong tdc-Ubuntu ...
