@@ -51,6 +51,16 @@ sử dụng RabbitMQ làm nền tảng trung gian cho đơn giản.:**<br/>
   - GET    http://localhost:8700/logs/add-10K-logs <br/>
     => Inject 10K messages mới vào RabbitMQ để giả lập 10K sự kiện ghi log liên tiếp ...  <br />
 
+**Thông số cấu hình JavaApp:(Env Var : [default value]), dùng để deploy lên Docker/k8s
+  - $APP_PORT:                 8700
+  - $RABBITMQ_SERVER:          localhost
+  - $RABBITMQ_USER:            admin
+  - $RABBITMQ_PWD:             admin
+  - $RABBITMQ_PORT:            56820
+  - $RABBITMQ_VIRTUAL_HOST:    /         
+
+  - 
+
 **Xem Console Log khi Apps đã chạy xong**
 ```shell
 java-logs-service_1  | 
