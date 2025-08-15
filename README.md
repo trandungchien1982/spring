@@ -59,7 +59,9 @@ sử dụng RabbitMQ làm nền tảng trung gian cho đơn giản.:**<br/>
   - $RABBITMQ_PORT:            56820
   - $RABBITMQ_VIRTUAL_HOST:    /         
 
-  - 
+**Lưu ý để refer qua HOST_IP trên Ubuntu, ta có thể dùng lệnh :
+  - export DOCKER_HOST_IP=$(hostname -I | awk '{print $1}')
+  - Sau đó ta có thể dùng env ở trên để refer qua các service đang được triển khai trên localhost của Ubuntu ....
 
 **Xem Console Log khi Apps đã chạy xong**
 ```shell

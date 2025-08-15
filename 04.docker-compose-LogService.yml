@@ -11,7 +11,8 @@ services:
     restart: always
     environment:
       APP_PORT: 9000
-      #RABBITMQ_SERVER: localhost
+      RABBITMQ_SERVER: localhost
+      DOCKER_HOST_IP: ${DOCKER_HOST_IP}
       #RABBITMQ_USER: admin
       #RABBITMQ_PWD: admin
       RABBITMQ_PORT: 56720
