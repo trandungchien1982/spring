@@ -16,7 +16,7 @@ services:
       RABBITMQ_DEFAULT_PASS: admin
     ports:
       - "15872:15672"
-      - "56820:5672"
+      - "56720:5672"
     networks:
       - common-network
 networks:

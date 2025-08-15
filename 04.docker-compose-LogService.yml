@@ -5,18 +5,21 @@
 version: '3.1'
  
 services:
- 
+
   java-logs-service:
-    image: tdchien1982/spring:log-services-rabbitmq-1.0
+    image: tdchien1982/spring:log-services-rabbitmq-2.0
     restart: always
     environment:
-      RABBITMQ_SERVER: rabbitmq-java-logs-service
-      RABBITMQ_PORT: 5672
+      APP_PORT: 9000
+      #RABBITMQ_SERVER: localhost
+      #RABBITMQ_USER: admin
+      #RABBITMQ_PWD: admin
+      RABBITMQ_PORT: 56720
+      #RABBITMQ_VIRTUAL_HOST: /
     ports:
-      - "8700:8700"
+      - "9100:9000"
     networks:
       - common-network
 networks:
     common-network:
       external: true
-    

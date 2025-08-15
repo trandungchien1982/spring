@@ -4,7 +4,7 @@ Mỗi nhánh trong Repo sẽ là 1 ví dụ/ giải pháp/ project mẫu trong S
 
 # Môi trường phát triển
 - Spring Boot 2.7.16
-- JDK 11
+- JDK 21
 
 # Build Tools sử dụng
 - Maven + Gradle
@@ -31,7 +31,7 @@ D:\Projects\spring
 sử dụng RabbitMQ làm nền tảng trung gian cho đơn giản.:**<br/>
 - Start ở port 8700
 - Spring Boot version : 2.7.16
-- JDK: 8
+- JDK: 21
 
 **Các EndPoints API:**
 
