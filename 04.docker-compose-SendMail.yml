@@ -10,8 +10,8 @@ services:
     restart: always
     environment:
       APP_PORT: 9090
-      EMAIL_HOST: tdchien.com
-      EMAIL_PORT: 1025
+      EMAIL_HOST: localhost
+      EMAIL_PORT: 25
       DOCKER_HOST_IP: ${DOCKER_HOST_IP}
     ports:
       - "9090:9090"
