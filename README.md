@@ -14,3 +14,6 @@ Mỗi nhánh trong Repo sẽ là 1 ví dụ/ giải pháp/ project mẫu trong S
 ```
 D:\Projects\spring
 ```
+
+# Xử lý gửi mail dùng SMTP config
+- Tham khảo Mailpit Docker để tạo EmailServer catcher test, UI cũng khá tốt ...
