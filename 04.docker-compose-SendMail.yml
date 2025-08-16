@@ -1,0 +1,22 @@
+# Docker Compose for SendMail
+# For testing Send Email using SMTP authentication
+
+version: '3.1'
+ 
+services:
+
+  java-logs-service:
+    image: tdchien1982/spring:send-mail-1.0
+    restart: always
+    environment:
+      APP_PORT: 9090
+      EMAIL_HOST: tdchien.com
+      EMAIL_PORT: 1025
+      DOCKER_HOST_IP: ${DOCKER_HOST_IP}
+    ports:
+      - "9090:9090"
+    networks:
+      - common-network
+networks:
+    common-network:
+      external: true
