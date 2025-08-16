@@ -18,3 +18,4 @@ D:\Projects\spring
 # Xử lý gửi mail dùng SMTP config
 - Tham khảo Mailpit Docker để tạo EmailServer catcher test, UI cũng khá tốt ...
 -   https://mailpit.axllent.org/docs/install/docker/ 
+
