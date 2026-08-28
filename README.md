@@ -17,23 +17,28 @@ D:\Projects\spring
 
 ==============================================================
 
-# Ví dụ [01.HelloWorld]
+# Ví dụ [21.Tracing+JavaAgent+OTLP]
 ==============================================================
 
-**Ta sẽ tạo 1 App Spring Boot mẫu như sau:**<br/>
+**Tao TraceID/SpanID de trace request giua cac microservices apps:**<br/>
 (Lấy từ Spring Initializr)
-- Start ở port 8100
-- Spring Boot version : 2.7.16
-- JDK: 11
-- Các dependencies hay dùng :
-  - Lombok
-  - Web/MVC
-  - Thymleaf
-  - JPA/Hibernate
-  - H2 Database
-- Tạo RESTful API với các endpoints sau đây:
-  - GET /api/get-users
-  - POST /api/add-user
-- Tạo Table DB giả lập trong H2 database
-  - Tạo Entity/Repository mẫu để tương tác với H2 (memory database)
-  - Tạo Service/Controller theo mô hình MVC để tạo trang /welcome, sử dụng Thymleaf
+- TraceID khong doi giua cac request
+- SpanID se nam giua cac features
+- user-service
+  - traceID
+  - spanID-01
+- order-service
+  - traceID
+  - spanID-02
+- payment-service
+  - traceID
+  - spanID-03
+
+Thong tin traceID/spanID co the duoc extract nhu sau :
+  SpanContext context = Span.current().getSpanContext();
+  String traceId = context.getTraceId();
+  String spanId = context.getSpanId();
+
+hoac show ben trong log pattern: 
+    %d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [traceId=%X{trace_id}, spanId=%X{span_id}] [%thread] %logger{36} - TDC-UserService - %msg%n
+
