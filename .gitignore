@@ -5,6 +5,8 @@
 # IntelliJ IDEA
 .idea/
 
+.gradle/
+
 # Compiled class file
 *.class
 
