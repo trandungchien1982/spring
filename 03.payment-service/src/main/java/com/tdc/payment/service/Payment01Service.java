@@ -20,8 +20,5 @@ public class Payment01Service {
   public void callSomething() {
     logger.warn("Ben trong Payment01Service.callSomething() ... ");
     logger.info("Tiep theo ben trong callSomething() ...");
-    logger.info(" -- Get from message of Payment01Service: trace_id: {}, span_id: {}", MDC.get("trace_id"), MDC.get("span_id"));
-    logger.info(" -- Get from message of Payment01Service: traceID: {}, spanID: {}", MDC.get("traceID"), MDC.get("spanID"));
-    logger.info(" -- Get from message of Payment01Service: traceId: {}, spanId: {}", MDC.get("traceId"), MDC.get("spanId"));
   }
 }

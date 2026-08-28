@@ -26,7 +26,6 @@ public class PaymentController {
   @GetMapping
   public Collection<Payment> findAll() {
     logger.info("Ben trong findAll() - PaymentController: nowTime: {}", new Date());
-    logger.info(" -- Get from message of PaymentController: trace_id: {}, span_id: {}", MDC.get("trace_id"), MDC.get("span_id"));
     showTraceIdFromContext();
 
     logger.info("Xu ly cap do 01 - Controller ... ");

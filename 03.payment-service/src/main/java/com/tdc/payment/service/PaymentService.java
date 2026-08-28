@@ -22,11 +22,6 @@ public class PaymentService {
 
   public Collection<Payment> findAll() {
     logger.warn("Ben trong PaymentService.findAll() ... ");
-    logger.info(" -- Get from message of PaymentService: trace_id: {}, span_id: {}", MDC.get("trace_id"), MDC.get("span_id"));
-    logger.info(" -- Get from message of PaymentService: traceID: {}, spanID: {}", MDC.get("traceID"), MDC.get("spanID"));
-    logger.info(" -- Get from message of PaymentService: traceId: {}, spanId: {}", MDC.get("traceId"), MDC.get("spanId"));
-
-
     payment01Service.callSomething();
     return users.values();
   }
