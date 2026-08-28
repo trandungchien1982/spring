@@ -1,9 +1,9 @@
-package com.tdc.userservice.controller;
+package com.tdc.orderservice.controller;
 
-import com.tdc.userservice.config.PaymentServiceClient;
-import com.tdc.userservice.model.Order;
-import com.tdc.userservice.model.Payment;
-import com.tdc.userservice.service.OrderService;
+import com.tdc.orderservice.config.PaymentServiceClient;
+import com.tdc.orderservice.model.Order;
+import com.tdc.orderservice.model.Payment;
+import com.tdc.orderservice.service.OrderService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;

@@ -1,6 +1,6 @@
-package com.tdc.userservice.service;
+package com.tdc.orderservice.service;
 
-import com.tdc.userservice.model.Order;
+import com.tdc.orderservice.model.Order;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;

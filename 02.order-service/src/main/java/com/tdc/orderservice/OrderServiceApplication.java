@@ -1,4 +1,4 @@
-package com.tdc.userservice;
+package com.tdc.orderservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

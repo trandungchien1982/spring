@@ -1,6 +1,6 @@
-package com.tdc.userservice.config;
+package com.tdc.orderservice.config;
 
-import com.tdc.userservice.model.Payment;
+import com.tdc.orderservice.model.Payment;
 import org.springframework.web.service.annotation.GetExchange;
 import org.springframework.web.service.annotation.HttpExchange;
 

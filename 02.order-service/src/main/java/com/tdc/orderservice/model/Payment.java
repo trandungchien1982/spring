@@ -1,4 +1,4 @@
-package com.tdc.userservice.model;
+package com.tdc.orderservice.model;
 
 public record Payment(Long id, String username, String email) {
 }
