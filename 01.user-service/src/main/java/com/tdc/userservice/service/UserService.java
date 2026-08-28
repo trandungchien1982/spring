@@ -13,10 +13,6 @@ public class UserService {
  private final Map<Long,User> users=new ConcurrentHashMap<>(); private final AtomicLong seq=new AtomicLong();
  public Collection<User> findAll(){
    logger.warn(" -- Inside UserService.findAll() ... nowTime: {}", new Date());
-   logger.info(" -- Get from message of UserService: trace_id: {}, span_id: {}", MDC.get("trace_id"), MDC.get("span_id"));
-   logger.info(" -- Get from message of UserService: trace_id: {}, span_id: {}", MDC.get("trace_id"), MDC.get("span_id"));
-   logger.info(" -- Get from message of UserService: traceID: {}, spanID: {}", MDC.get("traceID"), MDC.get("spanID"));
-   logger.info(" -- Get from message of UserService: traceId: {}, spanId: {}", MDC.get("traceId"), MDC.get("spanId"));
    return users.values();
  }
  public User findById(Long id){var u=users.get(id); if(u==null) throw new IllegalArgumentException("User not found: "+id); return u;}

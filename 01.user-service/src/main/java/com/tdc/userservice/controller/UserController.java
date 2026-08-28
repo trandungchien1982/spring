@@ -22,8 +22,6 @@ public class UserController {
   @GetMapping public Collection<User> findAll(){
     // Execute order-service:
     logger.info(" -- Try to call the UserController ... ");
-
-    logger.info(" -- Get from message of UserController: trace_id: {}, span_id: {}", MDC.get("trace_id"), MDC.get("span_id"));
     Collection<Order> listOrders = orderServiceClient.getOrders();
     logger.info(" -- listOrders: {}", listOrders);
     return service.findAll();
