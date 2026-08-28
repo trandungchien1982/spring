@@ -31,7 +31,6 @@ public class OrderController {
   @GetMapping
   public Collection<Order> findAll() {
     logger.info("Ben trong findAll() - OrderController: nowTime: {}", new Date());
-    logger.info(" -- Get from message of OrderController: trace_id: {}, span_id: {}", MDC.get("trace_id"), MDC.get("span_id"));
     logger.info("Chuan bi call paymentService.getPayments() ...");
     List<Payment> payments = paymentServiceClient.getPayments();
     logger.info("Danh sach payments: {}", payments);

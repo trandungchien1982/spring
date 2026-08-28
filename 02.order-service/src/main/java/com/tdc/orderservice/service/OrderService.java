@@ -18,11 +18,6 @@ public class OrderService {
 
   public Collection<Order> findAll() {
     logger.warn("Ben trong OrderService.findAll() ... ");
-    logger.info(" -- Get from message of OrderService: trace_id: {}, span_id: {}", MDC.get("trace_id"), MDC.get("span_id"));
-    logger.info(" -- Get from message of OrderService: traceID: {}, spanID: {}", MDC.get("traceID"), MDC.get("spanID"));
-    logger.info(" -- Get from message of OrderService: traceId: {}, spanId: {}", MDC.get("traceId"), MDC.get("spanId"));
-
-
     return users.values();
   }
 
