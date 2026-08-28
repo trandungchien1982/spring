@@ -1,0 +1,27 @@
+
+services:
+  payment-service:
+    build: .
+    ports: ["8088:8080"]
+
+    container_name: tempo-server-payment-service
+    labels:
+      name: tempo-server
+
+    environment:
+      OTEL_SERVICE_NAME: payment-service
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://tempo-server-otel-collector:4318
+      OTEL_EXPORTER_OTLP_PROTOCOL: http/protobuf
+      OTEL_TRACES_EXPORTER: none # Ignore trace to Tempo
+      OTEL_METRICS_EXPORTER: none
+      OTEL_LOGS_EXPORTER: none
+      OTEL_RESOURCE_ATTRIBUTES: deployment.environment=local,service.namespace=tdc-demo,service.version=1.0.0
+      OTEL_TRACES_SAMPLER: parentbased_traceidratio
+      OTEL_TRACES_SAMPLER_ARG: "1.0"
+
+    networks:
+      - common-network
+
+networks:
+  common-network:
+    external: true

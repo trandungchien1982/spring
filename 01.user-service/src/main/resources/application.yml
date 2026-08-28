@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: user-service
+server:
+  port: 8080
+management:
+  endpoints:
+    web:
+      exposure:
+        include: [health, info]
+
+## Call to OrderService
+order:
+  service:
+    url: ${ORDER_SERVICE_ADDRESS:http://localhost:8087}
+
+# Add TraceId/SpanId into log information
+logging:
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [traceId=%X{trace_id}, spanId=%X{span_id}] [%thread] %logger{36} - TDC-UserService - %msg%n"
+
