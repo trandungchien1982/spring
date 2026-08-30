@@ -225,18 +225,6 @@ public class UserController {
         return null;
     }
 
-    @GetMapping(path="/findOneByPasswordAsync")
-    public @ResponseBody User findOneByPasswordAsync(@RequestParam String password) {
-        try {
-            User user = userDao.findOneByPassword(password).get();
-            return user;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return null;
-    }
-
     private Sort getSort(String sortField, String sortType) {
         Sort sort = Sort.by(Order.asc(sortField));
         if ("desc".equalsIgnoreCase(sortType)) {

@@ -1,16 +1,17 @@
 plugins {
-	id 'java'
-	id 'org.springframework.boot' version '2.7.16'
-	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+    id 'java'
+    id 'org.springframework.boot' version '3.5.5'
+    id 'io.spring.dependency-management' version '1.1.7'
 }
 
-group = 'demo'
+group = 'app.tdc'
 version = '0.0.1-SNAPSHOT'
 
 java {
-	sourceCompatibility = '11'
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
 }
-
 configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
@@ -25,13 +26,12 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.apache.commons:commons-lang3:3.12.0'
-	// Use PostgreSQL
-	implementation 'org.postgresql:postgresql'
+    // PostgreSQL
+    runtimeOnly 'org.postgresql:postgresql'
 	runtimeOnly 'com.h2database:h2'
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'ru.yandex.qatools.embed:postgresql-embedded:2.10'
 }
 
 tasks.named('test') {

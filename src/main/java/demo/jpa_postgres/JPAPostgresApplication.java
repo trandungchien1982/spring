@@ -10,8 +10,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.stream.Collectors;
 
 @SpringBootApplication
@@ -26,7 +26,16 @@ public class JPAPostgresApplication implements CommandLineRunner {
 	UserDao userDao;
 
 	public static void main(String[] args) {
-		SpringApplication.run(JPAPostgresApplication.class, args);
+        System.out.println("Java version       = " + System.getProperty("java.version"));
+        System.out.println("user.timezone      = " + System.getProperty("user.timezone"));
+        System.out.println("TimeZone default   = " +
+                java.util.TimeZone.getDefault().getID());
+        System.out.println("ZoneId default     = " +
+                java.time.ZoneId.systemDefault());
+
+        //SpringApplication.run(Application.class, args);
+
+        //SpringApplication.run(JPAPostgresApplication.class, args);
 	}
 
 	@Override

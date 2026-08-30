@@ -52,7 +52,4 @@ public interface UserDao extends CrudRepository<User, Long> {
     public Future<User> findByName(String name);
     @Async
     public CompletableFuture<User> findOneByName(String name);
-    @Async
-    public ListenableFuture<User> findOneByPassword(String password);
-
 }
