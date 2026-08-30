@@ -17,13 +17,8 @@ D:\Projects\spring
 
 ==============================================================
 
-# Ví dụ [06.JPA+PostgreSQL]
+# Ví dụ [06.JPA+OptimisticLock]
 ==============================================================
-
-**Tham khảo**
-- https://github.com/yandex-qatools/postgresql-embedded
-- https://stackoverflow.com/questions/14314026/embedded-postgresql-for-java-junit-tests
-- https://www.baeldung.com/spring-boot-configure-data-source-programmatic
 
 **Ta sẽ tạo 1 App Spring Boot sử dụng JPA cho PostgreSQL Database như sau :**<br/>
 - Start ở port 8100
