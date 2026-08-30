@@ -26,16 +26,16 @@ public class JPAPostgresApplication implements CommandLineRunner {
 	UserDao userDao;
 
 	public static void main(String[] args) {
-        System.out.println("Java version       = " + System.getProperty("java.version"));
-        System.out.println("user.timezone      = " + System.getProperty("user.timezone"));
-        System.out.println("TimeZone default   = " +
-                java.util.TimeZone.getDefault().getID());
-        System.out.println("ZoneId default     = " +
-                java.time.ZoneId.systemDefault());
+//        System.out.println("Java version       = " + System.getProperty("java.version"));
+//        System.out.println("user.timezone      = " + System.getProperty("user.timezone"));
+//        System.out.println("TimeZone default   = " +
+//                java.util.TimeZone.getDefault().getID());
+//        System.out.println("ZoneId default     = " +
+//                java.time.ZoneId.systemDefault());
+//
+//        //SpringApplication.run(Application.class, args);
 
-        //SpringApplication.run(Application.class, args);
-
-        //SpringApplication.run(JPAPostgresApplication.class, args);
+        SpringApplication.run(JPAPostgresApplication.class, args);
 	}
 
 	@Override

@@ -84,6 +84,8 @@ public class UserController {
             User newItem = new User();
             newItem.setName(userNamePrefix + "_" + i);
             newItem.setPassword("Password INSERT NEW");
+            newItem.setEmail("Email_" + i);
+            newItem.setDescription("Description_" + i);
             newItem.setActive(false);
             newItem.setCreateDate(createDate);
             userDao.save(newItem);
