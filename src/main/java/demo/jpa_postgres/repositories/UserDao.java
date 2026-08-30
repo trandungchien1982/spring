@@ -13,7 +13,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.util.concurrent.ListenableFuture;
 
 /**
  * DAO interface, we do not need inject @Bean
