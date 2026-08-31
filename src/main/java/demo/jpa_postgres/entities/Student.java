@@ -25,7 +25,7 @@ public class Student {
     private String description;
 
     @Version
-    private Integer version;
+    private long version;
 
     @Column(name = "create_date")
     private Date createDate;

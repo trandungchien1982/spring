@@ -26,15 +26,6 @@ public class JPAPostgresApplication implements CommandLineRunner {
 	UserDao userDao;
 
 	public static void main(String[] args) {
-//        System.out.println("Java version       = " + System.getProperty("java.version"));
-//        System.out.println("user.timezone      = " + System.getProperty("user.timezone"));
-//        System.out.println("TimeZone default   = " +
-//                java.util.TimeZone.getDefault().getID());
-//        System.out.println("ZoneId default     = " +
-//                java.time.ZoneId.systemDefault());
-//
-//        //SpringApplication.run(Application.class, args);
-
         SpringApplication.run(JPAPostgresApplication.class, args);
 	}
 
@@ -45,12 +36,12 @@ public class JPAPostgresApplication implements CommandLineRunner {
 		log.info("[MAIN] Start running some initialize CLI ...");
 		log.info("--------------------------------------------------------");
 		log.info("[MAIN] Total of users: " + userService.countAllUsers());
-		log.info("[MAIN] findAll() = " + userDao.findAll());
-		log.info("[MAIN] findAll(Sort.by('name')) = " + userDao.findAll(Sort.by("name")));
-		log.info("[MAIN] findByName('Paul') = " + userDao.findByName("Paul").get());
-		log.info("[MAIN] findFirstByOrderByNameAsc() = " + userDao.findFirstByOrderByNameAsc());
-		log.info("[MAIN] findTopByOrderByDescriptionDesc() = " + userDao.findTopByOrderByDescriptionDesc());
-		log.info("[MAIN] queryFirst10ByName() = " + userDao.queryFirst10ByName("James", Pageable.ofSize(2)));
-		log.info("[MAIN] findDataCustomSQL() = " + userDao.findDataCustomSQL().collect(Collectors.toList()));
+//		log.info("[MAIN] findAll() = " + userDao.findAll());
+//		log.info("[MAIN] findAll(Sort.by('name')) = " + userDao.findAll(Sort.by("name")));
+//		log.info("[MAIN] findByName('Paul') = " + userDao.findByName("Paul").get());
+//		log.info("[MAIN] findFirstByOrderByNameAsc() = " + userDao.findFirstByOrderByNameAsc());
+//		log.info("[MAIN] findTopByOrderByDescriptionDesc() = " + userDao.findTopByOrderByDescriptionDesc());
+//		log.info("[MAIN] queryFirst10ByName() = " + userDao.queryFirst10ByName("James", Pageable.ofSize(2)));
+//		log.info("[MAIN] findDataCustomSQL() = " + userDao.findDataCustomSQL().collect(Collectors.toList()));
 	}
 }
