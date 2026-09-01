@@ -23,11 +23,20 @@ D:\Projects\spring
 **Ta sẽ tạo 1 App Spring Boot sử dụng JPA cho PostgreSQL Database như sau :**<br/>
 - Start ở port 8100
 - PostgreSQL DB, sử dụng Docker để test
-```shell
-  ./00.start-db.sh
+- Thử nghiệm lỗi OptimisticLock (Request2 thực hiện sau Request1 khoảng 1s: 
+  - Request 01: GET - http://localhost:8100/student/updateLock?waitSeconds=5
+    (lấy entityA, chờ 5s rồi tiến hành update -> OK)
+  - Request 02: GET - http://localhost:8100/student/updateLock?waitSeconds=10
+    (lấy entityA, chờ 10s rồi tiến hành update -> FAIL do khác @Version với entityA ban đầu)
+  - Xem logs thì sẽ thấy OptimisticLock exception sẽ xảy ra với Request2 
+- Thử nghiệm xem nội dung entity được fetch nhiều lần sẽ được lấy từ L1 cache thay vì query nhiều lần
+    GET - http://localhost:8100/student/testL1
+- Thử nghiệm xem nội dung entity được cache và sử dụng trong vòng 30s xuyên qua nhiều requests khác nhau
+Một request có thể gọi nhiều lần để giả lập multiple transactions và sử dụng lại L2 (hit counts, check, put, ...)
+Ta cũng có thể xem statistic info dành cho L1, L2, ...
+  - GET - http://localhost:8100/student/testL2
+
   
-  ./01.stop-db.sh
-```
 - Script tạo data nằm trong file /resource/data.sql và được load trước khi init JPA<br/>
   (script này chạy tốt với PostreSQL ở môi trường thực hoặc H2 cho Integration Tests )
 

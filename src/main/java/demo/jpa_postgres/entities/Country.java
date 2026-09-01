@@ -2,18 +2,21 @@ package demo.jpa_postgres.entities;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import java.util.Date;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Getter;
-import lombok.Setter;
-
 @Entity
-@Table(name = "\"user\"")
+@Table(name = "country")
 @Getter
 @Setter
-public class User {
+@Cacheable
+@org.hibernate.annotations.Cache(
+        usage = CacheConcurrencyStrategy.READ_ONLY
+)
+public class Country {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,22 +26,8 @@ public class User {
     private String name;
 
     @Column
-    @JsonIgnore
-    private String password;
-
-    @Column
-    private String email;
-
-    @Column
-    private String description;
-
-    @Column
-    private Date birthday;
-
-    @Column
-    private Boolean active;
+    private String code;
 
     @Column(name = "create_date")
     private Date createDate;
-
 }

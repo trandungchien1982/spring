@@ -3,12 +3,15 @@ package demo.jpa_postgres.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Date;
 
 @Entity
 @Table(name = "students")
-@Data
+@Getter
+@Setter
 public class Student {
 
     @Id

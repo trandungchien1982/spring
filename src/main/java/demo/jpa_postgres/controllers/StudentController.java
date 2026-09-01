@@ -1,16 +1,22 @@
 package demo.jpa_postgres.controllers;
 
+import demo.jpa_postgres.entities.Country;
 import demo.jpa_postgres.entities.Student;
 import demo.jpa_postgres.entities.User;
+import demo.jpa_postgres.repositories.CountryRepository;
 import demo.jpa_postgres.repositories.StudentDao;
 import demo.jpa_postgres.repositories.UserDao;
 //import demo.jpa_postgres.services.ConcurrentUpdateStudentService;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Id;
 import jakarta.persistence.PersistenceContext;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.SessionFactory;
+import org.hibernate.stat.Statistics;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +31,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 
@@ -36,8 +43,14 @@ public class StudentController {
     @Autowired
     private StudentDao studentDao;
 
+    @Autowired
+    private CountryRepository countryRepository;
+
     @PersistenceContext
-  private EntityManager entityManager;
+    private EntityManager entityManager;
+
+    @Autowired
+    private EntityManagerFactory emf;
 
 //    @Autowired
 //    private ConcurrentUpdateStudentService concurrentUpdateStudentService;
@@ -101,14 +114,77 @@ public class StudentController {
       return std;
     }
 
-    private void saveStudentWithRetry(Student std, boolean updateValue, String name, Date now) {
+  @GetMapping(path="/testL1")
+  @Transactional(propagation = Propagation.REQUIRES_NEW)
+  public @ResponseBody Map<String,Object> testL1() throws InterruptedException {
+    log.info("Try to testL1: ");
 
-      if (updateValue) {
-        std.setName(name);
-        std.setCreateDate(now);
+    List<Student> allStudents = studentDao.findAll();
+    log.info(" -- Find All Student ... size = {}", allStudents.size());
+
+    Set<Long> ids = allStudents.stream().map(Student::getId).collect(Collectors.toSet());
+    log.info(" -- All ids: {}", ids);
+
+    //  Browse all students and fetch again
+    log.info(" -- Browse all students and fetch by each ids");
+    for (int i = 0; i < allStudents.size(); i++) {
+      Student itemStd  = allStudents.get(i);
+      Student s = studentDao.findById(itemStd.getId()).orElse(null);
+      if (itemStd == s) {
+        log.info("itemStd == s, L1 cache is working properly ...");
+
+      } else {
+        log.info("NOT EQUALS at index: {}, itemStd: {}, s: {}", i, itemStd, s);
       }
-      studentDao.saveAndFlush(std);
     }
+
+    return Map.of("id", ids, "itemData", allStudents);
+  }
+
+  @GetMapping(path="/testL2")
+  @Transactional(propagation = Propagation.REQUIRES_NEW)
+  public @ResponseBody Map<String,Object> testL2() throws InterruptedException {
+    log.info("Try to testL2: ");
+
+    List<Country> allCountries = countryRepository.findAll();
+
+    //  Browse all students and fetch again
+    log.info(" -- Browse all countries and fetch by each ids");
+    for (int i = 1; i <= 5; i++) {
+      //Country itemCt  = allCountries.get(i);
+      Country s = countryRepository.findById((long)i).orElse(null);
+    }
+
+    printStats();
+
+
+    return Map.of("itemData", "Test Lvl2");
+  }
+
+
+  public void printStats() {
+
+    SessionFactory sessionFactory =
+            emf.unwrap(SessionFactory.class);
+
+    Statistics statistics =
+            sessionFactory.getStatistics();
+
+    System.out.println(
+            "L2 Hit = " +
+                    statistics.getSecondLevelCacheHitCount()
+    );
+
+    System.out.println(
+            "L2 Miss = " +
+                    statistics.getSecondLevelCacheMissCount()
+    );
+
+    System.out.println(
+            "L2 Put = " +
+                    statistics.getSecondLevelCachePutCount()
+    );
+  }
 
     private Sort getSort(String sortField, String sortType) {
         Sort sort = Sort.by(Order.asc(sortField));
