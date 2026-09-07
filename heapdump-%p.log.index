@@ -1,0 +1,7 @@
+[2026-09-07T11:24:17.445592129+07:00[Asia/Bangkok]] [INFO] Started opening dump /home/tdc/spring/heapdump-%p.hprof at 2026-09-07T11:24:17.438785707+07:00[Asia/Bangkok]
+[2026-09-07T11:24:17.76824106+07:00[Asia/Bangkok]] [INFO] Detected compressed references, because with uncompressed 64-bit references the array at 0x80258048 would overlap the array at 0x80258028
+[2026-09-07T11:24:17.94871878+07:00[Asia/Bangkok]] [INFO] Wrote threads call stacks to /home/tdc/spring/heapdump-%p.threads
+[2026-09-07T11:24:18.047231395+07:00[Asia/Bangkok]] [INFO] Heap /home/tdc/spring/heapdump-%p.hprof contains 304,876 objects
+[2026-09-07T11:24:19.098565316+07:00[Asia/Bangkok]] [INFO] The keep unreachable objects condition is set to false. This may come either from the preference or dump condition requirements.
+[2026-09-07T11:24:19.174087284+07:00[Asia/Bangkok]] [INFO] Removed 26,861 unreachable objects using 1,637,376 bytes
+[2026-09-07T11:24:20.82744224+07:00[Asia/Bangkok]] [INFO] Finished opening dump in 3.39 seconds (3.386189727s) at 2026-09-07T11:24:20.824975434+07:00[Asia/Bangkok]

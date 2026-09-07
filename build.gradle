@@ -44,3 +44,19 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+// Special task bootRun will be CLI of setting MAX RAM : 1GB, track the OOM error and specify G1 as default GC
+tasks.named('bootRun') {
+    jvmArgs = [
+            '-Xms512m',
+            '-Xmx2g',
+            '-XX:+UseG1GC',
+
+            '-XX:+HeapDumpOnOutOfMemoryError',
+            '-XX:HeapDumpPath=./heapdump-%p.hprof',
+
+            '-Xlog:gc*=trace:file=./gc.log:time,uptime,level,tags',
+
+            '-XX:StartFlightRecording=filename=./recording.jfr,settings=profile,dumponexit=true'
+    ]
+}
