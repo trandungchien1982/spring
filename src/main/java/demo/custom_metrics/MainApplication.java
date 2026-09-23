@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
         DataSourceAutoConfiguration.class,
         HibernateJpaAutoConfiguration.class
 })
-public class OOM_GC_Application implements CommandLineRunner {
+public class MainApplication implements CommandLineRunner {
 
 	Logger log = LoggerFactory.getLogger(getClass());
 
@@ -25,7 +25,7 @@ public class OOM_GC_Application implements CommandLineRunner {
 	@Transactional
 	public void run(String... args) throws Exception {
 		// Data for users will be initialized in file data.sql
-		log.info("[MAIN] Start App for testing OOM - GC ...");
+		log.info("[MAIN] Start App for testing Custom+Prometheus+Metrics ...");
 		log.info("--------------------------------------------------------");
 	}
 }
