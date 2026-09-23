@@ -17,18 +17,19 @@ D:\Projects\spring
 
 ==============================================================
 
-# Ví dụ [22.OOM-GC-Tests]
+# Ví dụ [23.Custom+Prometheus+Metrics]
 ==============================================================
 
-**Giả lập lỗi OOM - Out Of Memory Exception va config để xuất ra file .hprof và GC information  :**<br/>
-- Start ở port 8120
-- Các API xử lý tăng Heap Size trong RAM bằng cách thêm String line (1MB) liên tục vào static List<String>
-  - GET - http://localhost:8120/main/increaseRAM?loopTimes=1000
-  - GET - http://localhost:8120/sub/increaseRAM?loopTimes=1000
-  - GET - http://localhost:8120/vertical/increaseRAM?loopTimes=1000
-- Trong file build.gradle, task bootRun đã được customize:
-  - Limit total 1GB RAM
-  - HeapDumpOnOutOfMemoryError ...
+**Viết Custom Prometheus Metrics trong SpringBoot để theo dõi một số value quan trọng :**<br/>
+- tdc_count_transaction_total
+- tdc_count_threads_total
+
+**API liên quan**
+- http://localhost:8100/metrics
+- http://localhost:8100/transaction
+- http://localhost:8100/thread
+- http://localhost:8100/actuator/prometheus
+
 ```
 tasks.named('bootRun') {
     jvmArgs = [
