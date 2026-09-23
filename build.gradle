@@ -1,17 +1,16 @@
 plugins {
-    id 'java'
-    id 'org.springframework.boot' version '3.5.5'
-    id 'io.spring.dependency-management' version '1.1.7'
+	id 'java'
+	id 'org.springframework.boot' version '2.7.16'
+	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
 }
 
-group = 'app.tdc'
+group = 'demo'
 version = '0.0.1-SNAPSHOT'
 
 java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
-    }
+	sourceCompatibility = '11'
 }
+
 configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
@@ -23,40 +22,20 @@ repositories {
 }
 
 dependencies {
+        
+        // Prometheus connector/monitoring
+        implementation 'io.micrometer:micrometer-registry-prometheus'
+        implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.apache.commons:commons-lang3:3.12.0'
-
-    // PostgreSQL
-    runtimeOnly 'org.postgresql:postgresql'
-
-    // L2 cache
-    implementation 'org.hibernate.orm:hibernate-jcache'
-    implementation 'org.ehcache:ehcache'
-    implementation 'javax.cache:cache-api'
-
-	runtimeOnly 'com.h2database:h2'
 	compileOnly 'org.projectlombok:lombok'
+	runtimeOnly 'com.h2database:h2'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
 tasks.named('test') {
 	useJUnitPlatform()
-}
-
-// Special task bootRun will be CLI of setting MAX RAM : 1GB, track the OOM error and specify G1 as default GC
-tasks.named('bootRun') {
-    jvmArgs = [
-            '-Xms512m',
-            '-Xmx2g',
-            '-XX:+UseG1GC',
-
-            '-XX:+HeapDumpOnOutOfMemoryError',
-            '-XX:HeapDumpPath=./heapdump-%p.hprof',
-
-            '-Xlog:gc*=trace:file=./gc.log:time,uptime,level,tags',
-
-            '-XX:StartFlightRecording=filename=./recording.jfr,settings=profile,dumponexit=true'
-    ]
 }
