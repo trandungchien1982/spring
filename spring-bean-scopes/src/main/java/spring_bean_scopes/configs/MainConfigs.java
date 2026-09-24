@@ -12,7 +12,7 @@ public class MainConfigs {
 
     Logger log = LoggerFactory.getLogger(getClass());
 
-    int singleBeanIdx = 0;
+    static int singleBeanIdx = 0;
     @Bean
     SingleBeanObject singleBeanObject() {
         log.info(" >> Try to create new instance of SingleBeanObject: " + singleBeanIdx);
@@ -25,7 +25,7 @@ public class MainConfigs {
         return bean;
     }
 
-    int prototypeBeanIdx = 0;
+    static int prototypeBeanIdx = 0;
     @Bean
     @Scope(value="prototype")
     PrototypeBeanObject prototypeBeanObject() {
