@@ -59,7 +59,7 @@ public class StreamController {
   public @ResponseBody List<String> optionalListToList() {
     return StreamSupport.stream(userDao.findAll().spliterator(), false)
             .map(User::getName)
-            .filter(s -> s.length() > 10)
+            .filter(s -> s.length() < 10)
             .collect(Collectors.toList());
   }
 }
