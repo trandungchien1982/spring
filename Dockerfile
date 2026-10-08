@@ -1,7 +1,7 @@
-FROM eclipse-temurin:21-jre-jammy
+FROM bellsoft/liberica-openjre-alpine-musl:21
 MAINTAINER Chien Tran <trandungchien1982@gmail.com>
 
-WORKDIR /usr/src/myapp
+WORKDIR /app
 COPY "./build/libs/barcodes-0.0.1-SNAPSHOT.jar" .
 
 # Run when creating container
