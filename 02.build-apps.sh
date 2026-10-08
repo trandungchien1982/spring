@@ -1,8 +1,7 @@
-echo 'Tien hanh build Apps SendMail ...'
-cd ./send-mail
+echo 'Tien hanh build Apps BarCode ...'
 chmod +x gradlew
 ./gradlew build
 cd ..
-ls -l ./send-mail/build/libs
+ls -l ./build/libs
 
 
