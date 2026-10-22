@@ -1,4 +1,4 @@
-FROM bellsoft/liberica-openjre-alpine-musl:21
+FROM azul-zulu:21-jre-headless
 MAINTAINER Chien Tran <trandungchien1982@gmail.com>
 
 WORKDIR /app
