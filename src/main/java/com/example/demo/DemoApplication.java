@@ -12,7 +12,21 @@ public class DemoApplication {
 
 //    static final Logger logger = LoggerFactory.getLogger(DemoApplication.class);
 	public static void main(String[] args) {
-        SpringApplication.run(DemoApplication.class);
-	}
+    System.out.println(
+            "KEY01 = " + System.getenv("KEY01")
+    );
+    System.out.println(
+            "RABBITMQ_HOST = " + System.getenv("RABBITMQ_HOST")
+    );
 
+    System.out.println(
+            "UNLEASH_API_URL = " + System.getenv("UNLEASH_API_URL")
+    );
+
+    System.out.println(
+            "UNLEASH_API_TOKEN = " + System.getenv("UNLEASH_API_TOKEN")
+    );
+
+    SpringApplication.run(DemoApplication.class);
+  }
 }

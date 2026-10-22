@@ -18,12 +18,16 @@ public class RabbitMQController {
 
   private final RabbitTemplate rabbitTemplate;
   private final String mainQueue;
+  private final String failedQueue;
+
 
   public RabbitMQController(
           RabbitTemplate rabbitTemplate,
-          @Value("${app.rabbitmq.main-queue}") String mainQueue) {
+          @Value("${app.rabbitmq.main-queue}") String mainQueue,
+          @Value("${app.rabbitmq.simulate-failed-queue}") String failedQueue) {
     this.rabbitTemplate = rabbitTemplate;
     this.mainQueue = mainQueue;
+    this.failedQueue = failedQueue;
   }
 
   @GetMapping("/ok-message")
@@ -33,6 +37,16 @@ public class RabbitMQController {
             "The OK message at time: " + LocalDateTime.now().format(TIME_FORMAT));
     // Default exchange: routing key == queue name
     rabbitTemplate.convertAndSend(mainQueue, msg);
+    return ResponseEntity.ok(msg);
+  }
+
+  @GetMapping("/failed-message")
+  public ResponseEntity<QueueMessage> sendFailMessage() {
+    QueueMessage msg = new QueueMessage(
+            "message2",
+            "The FAILED message at time: " + LocalDateTime.now().format(TIME_FORMAT));
+    // Default exchange: routing key == queue name
+    rabbitTemplate.convertAndSend(failedQueue, msg);
     return ResponseEntity.ok(msg);
   }
 }
