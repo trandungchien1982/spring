@@ -1,10 +1,10 @@
-# Docker Compose for BarCodes
+# Docker Compose for RabbitMQ Retry
 version: '3.1'
  
 services:
 
-  java-barcodes-service:
-    image: tdchien1982/spring:barcodes-1.1
+  java-rabbitmq-retry-service:
+    image: tdchien1982/spring:rabbitmq-retry-1.0
     restart: always
     environment:
       APP_PORT: 9091

@@ -1,4 +1,4 @@
-echo 'Tien hanh build Apps BarCode ...'
+echo 'Tien hanh build Apps RabbitMQ Retry ...'
 chmod +x gradlew
 ./gradlew build
 cd ..
