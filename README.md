@@ -15,7 +15,8 @@ Mỗi nhánh trong Repo sẽ là 1 ví dụ/ giải pháp/ project mẫu trong S
 D:\Projects\spring
 ```
 
-# Xử lý gửi mail dùng SMTP config
-- Tham khảo Mailpit Docker để tạo EmailServer catcher test, UI cũng khá tốt ...
--   https://mailpit.axllent.org/docs/install/docker/ 
-
+# Tạo demo về gửi message qua RabbitMQ, Producer -> RabbitMQ -> Consumer bao gồm 2 trường hợp :
+- GET /ok-message -> OkMessageConsumer: Gửi message bình thường
+- GET /failed-message -> SimulateFailedConsumer:
+  - Khi bật ff `ff-simulate-error` thì sẽ raised exception để giả lập error processing
+  - Ghi log bao gồm key, message, retryCount / Max Retry
