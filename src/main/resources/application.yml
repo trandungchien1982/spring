@@ -1,0 +1,13 @@
+server:
+  port: ${SERVER_PORT:8585}
+spring:
+  application:
+    name: mongodb-crud-demo
+  data:
+    mongodb:
+      uri: ${MONGODB_URI:mongodb://localhost:27017/order_management_demo}
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
