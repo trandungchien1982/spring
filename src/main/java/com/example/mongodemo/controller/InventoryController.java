@@ -17,9 +17,11 @@ public class InventoryController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Inventory create(@Valid @RequestBody Inventory body) {
-        String id = body.id() == null ? UUID.randomUUID().toString() : body.id();
+        String id = body.getId() == null ? UUID.randomUUID().toString() : body.getId();
         if (repository.existsById(id)) throw new ResponseStatusException(HttpStatus.CONFLICT, "ID already exists");
-        return repository.save(new Inventory(id, body.productId(), body.version(), body.warehouseId(), body.quantity()));
+        body.setId(id);
+        body.setProduct(null);
+        return repository.save(body);
     }
 
     @GetMapping("/{id}")
@@ -30,8 +32,10 @@ public class InventoryController {
     @PutMapping("/{id}")
     public Inventory update(@PathVariable String id, @Valid @RequestBody Inventory body) {
         if (!repository.existsById(id)) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Inventory not found");
-        if (body.id() != null && !body.id().equals(id)) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID mismatch");
-        return repository.save(new Inventory(id, body.productId(), body.version(), body.warehouseId(), body.quantity()));
+        if (body.getId() != null && !body.getId().equals(id)) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID mismatch");
+        body.setId(id);
+        body.setProduct(null);
+        return repository.save(body);
     }
 
     @DeleteMapping("/{id}")

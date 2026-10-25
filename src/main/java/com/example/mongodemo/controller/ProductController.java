@@ -1,7 +1,9 @@
 package com.example.mongodemo.controller;
+import com.example.mongodemo.model.Inventory;
 import com.example.mongodemo.model.Product;
 import com.example.mongodemo.repository.ProductRepository;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -10,6 +12,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/products")
+@Slf4j
 public class ProductController {
     private final ProductRepository repository;
     public ProductController(ProductRepository repository) { this.repository = repository; }
@@ -17,21 +20,28 @@ public class ProductController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Product create(@Valid @RequestBody Product body) {
-        String id = body.id() == null ? UUID.randomUUID().toString() : body.id();
+        String id = body.getId() == null ? UUID.randomUUID().toString() : body.getId();
         if (repository.existsById(id)) throw new ResponseStatusException(HttpStatus.CONFLICT, "ID already exists");
-        return repository.save(new Product(id, body.productId(), body.version(), body.status(), body.name(), body.price()));
+        body.setId(id);
+        body.setInventories(null);
+        return repository.save(body);
     }
 
     @GetMapping("/{id}")
     public Product get(@PathVariable String id) {
-        return repository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found"));
+      Product result = repository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found"));
+      List<Inventory> inventories = result.getInventories();
+      log.info("-- Total inventory: {}", inventories);
+      return result;
     }
 
     @PutMapping("/{id}")
     public Product update(@PathVariable String id, @Valid @RequestBody Product body) {
         if (!repository.existsById(id)) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found");
-        if (body.id() != null && !body.id().equals(id)) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID mismatch");
-        return repository.save(new Product(id, body.productId(), body.version(), body.status(), body.name(), body.price()));
+        if (body.getId() != null && !body.getId().equals(id)) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID mismatch");
+        body.setId(id);
+        body.setInventories(null);
+        return repository.save(body);
     }
 
     @DeleteMapping("/{id}")
