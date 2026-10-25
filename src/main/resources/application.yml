@@ -11,3 +11,10 @@ management:
     web:
       exposure:
         include: health,info
+logging:
+  level:
+    # Spring Data layer: query/update/aggregation documents with bound values, collection and target type
+    org.springframework.data.mongodb.core.MongoTemplate: DEBUG
+    org.springframework.data.mongodb.repository.query: DEBUG
+    # Driver layer: the actual command sent to the server (filter, sort, limit, ...) and its duration
+    org.mongodb.driver.protocol.command: DEBUG
