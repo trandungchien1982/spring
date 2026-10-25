@@ -19,7 +19,7 @@ public class InventoryController {
     public Inventory create(@Valid @RequestBody Inventory body) {
         String id = body.id() == null ? UUID.randomUUID().toString() : body.id();
         if (repository.existsById(id)) throw new ResponseStatusException(HttpStatus.CONFLICT, "ID already exists");
-        return repository.save(new Inventory(id, body.productId(), body.version(), body.status(), body.warehouseId(), body.quantity()));
+        return repository.save(new Inventory(id, body.productId(), body.version(), body.warehouseId(), body.quantity()));
     }
 
     @GetMapping("/{id}")
@@ -31,7 +31,7 @@ public class InventoryController {
     public Inventory update(@PathVariable String id, @Valid @RequestBody Inventory body) {
         if (!repository.existsById(id)) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Inventory not found");
         if (body.id() != null && !body.id().equals(id)) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID mismatch");
-        return repository.save(new Inventory(id, body.productId(), body.version(), body.status(), body.warehouseId(), body.quantity()));
+        return repository.save(new Inventory(id, body.productId(), body.version(), body.warehouseId(), body.quantity()));
     }
 
     @DeleteMapping("/{id}")
@@ -48,15 +48,9 @@ public class InventoryController {
         return repository.search(productId, version, status);
     }
 
-    @GetMapping("/derived")
-    public List<Inventory> derived(@RequestParam String productId, @RequestParam String status) {
-        return repository.findByProductIdAndStatus(productId, status);
-    }
-
     @GetMapping("/annotated")
-    public List<Inventory> annotated(@RequestParam String productId, @RequestParam Integer version,
-                                @RequestParam String status) {
-        return repository.findUsingQuery(productId, version, status);
+    public List<Inventory> annotated(@RequestParam String productId, @RequestParam Integer version) {
+        return repository.findUsingQuery(productId, version);
     }
     @GetMapping("/by-product/{productId}")
     public List<Inventory> byProduct(@PathVariable String productId) {
